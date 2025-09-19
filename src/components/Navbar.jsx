@@ -1,8 +1,23 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Dropdown from "./Dropdown";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    };
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
 
   return (
     <header className="p-4 flex items-center justify-between *:cursor-pointer">
@@ -22,7 +37,10 @@ const Navbar = () => {
           <img src="/icon-dropdown.svg" alt="Dropdown Arrow" />
         </button>
         {open && (
-          <div className="absolute right-0 mt-2 w-52 p-2 rounded-md divide-y divide-Neutral-600 shadow-lg bg-Neutral-800">
+          <div
+            ref={menuRef}
+            className="absolute right-0 mt-2 w-52 p-2 rounded-md divide-y divide-Neutral-600 shadow-lg bg-Neutral-800"
+          >
             <button
               type="button"
               className="bg-Neutral-700 px-2 py-1 rounded-md text-left w-full"

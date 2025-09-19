@@ -1,8 +1,4 @@
-
-
 const SearchBar = () => {
-  
-
   return (
     <div className="flex flex-col items-center justify-center">
       <h1 className="py-6 text-4xl font-header font-bold">
@@ -20,13 +16,11 @@ const SearchBar = () => {
           </div>
           <button
             type="button"
-            
             className="bg-Blue-500 px-2 py-1 rounded-md cursor-pointer"
           >
             Search
           </button>
         </div>
-        
       </div>
     </div>
   );
