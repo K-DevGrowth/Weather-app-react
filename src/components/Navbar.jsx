@@ -22,7 +22,6 @@ const Navbar = () => {
   return (
     <header className="p-4 flex items-center justify-between *:cursor-pointer">
       <img
-        className="block max-w-full"
         src="/logo.svg"
         alt="Weather App Logo"
       />

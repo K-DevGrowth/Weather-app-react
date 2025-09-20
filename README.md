@@ -73,18 +73,56 @@ Use this section to recap over some of your major learnings while working throug
 
 To see how you can add code snippets, see below:
 
-```html
-<h1>Some HTML code I'm proud of</h1>
+Navbar.jsx
+```react
+const menuRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    };
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
+
+ref={menuRef}
 ```
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
+
+Dropdown.jsx
+```react
+useEffect(() => {
+    const saved = localStorage.getItem(title);
+    if (saved && options.includes(saved)) {
+      setSelected(saved);
+    } else {
+      setSelected(options[0]);
+    }
+  }, [options, title]);
+
+  useEffect(() => {
+    if (selected) {
+      localStorage.setItem(title, selected);
+    }
+  }, [selected, title]);
 ```
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
-}
+
+App.jsx
+```react
+useEffect(() => {
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const lan = position.coords.latitude;
+      const lon = position.coords.longitude;
+      const data = await weatherService.getAll(lan, lon);
+      console.log(data);
+      setWeather(data);
+    });
+  }, []);
 ```
 
 If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.

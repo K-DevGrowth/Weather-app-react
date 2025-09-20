@@ -1,4 +1,4 @@
-const WeatherStats = () => {
+const WeatherStats = ({data, unit}) => {
   return (
     <div className="flex mt-4 gap-4">
       <WeatherStat label="Feels like" value="18" />

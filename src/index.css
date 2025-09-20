@@ -17,3 +17,8 @@
     --font-header: "Bricolage Grotesque", sans-serif;
     --font-display: "DM Sans", sans-serif;
 }
+
+img {
+    display: block;
+    max-width: 100%;
+}
