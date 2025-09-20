@@ -10,7 +10,7 @@ const CurrentWeatherCard = ({ data, timezone, unit }) => {
   return (
     <div className="relative">
       <img
-        className="w-full object-cover"
+        className="w-full rounded-xl h-60 object-cover"
         src="/bg-today-large.svg"
         alt="Current Weather"
       />
@@ -21,11 +21,11 @@ const CurrentWeatherCard = ({ data, timezone, unit }) => {
           </p>
           <p>{formattedDate}</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-4">
           <img className="w-25" src="/icon-sunny.webp" alt="" />
           <p className="text-5xl font-bold">
-            {data?.temperature}
-            {unit?.temperature.replace("C", "")}
+            {data?.temperature_2m}
+            {unit?.temperature_2m.replace("C", "")}
           </p>
         </div>
       </div>

@@ -12,10 +12,10 @@ const App = () => {
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(async (position) => {
-      const lan = position.coords.latitude;
+      const lat = position.coords.latitude;
       const lon = position.coords.longitude;
-      const data = await weatherService.getAll(lan, lon);
-      console.log(data);
+      const data = await weatherService.getAll(lat, lon);
+      // console.log(data);
       setWeather(data);
     });
   }, []);
@@ -23,21 +23,18 @@ const App = () => {
   if (!weather) return <h1>Loading...</h1>;
 
   return (
-    <div className="relative w-screen min-h-dvh overflow-x-hidden text-Neutral-0 bg-Neutral-900">
+    <div className="relative w-screen h-dvh overflow-x-hidden text-Neutral-0 bg-Neutral-900">
       <Navbar />
       <SearchBar />
-      <div className="grid grid-cols-2 p-4">
+      <div className="grid grid-cols-[2fr_1fr] py-4 px-10 gap-6">
         <div>
           <CurrentWeatherCard
             timezone={weather.timezone}
-            data={weather.current_weather}
-            unit={weather.current_weather_units}
+            data={weather.current}
+            unit={weather.current_units}
           />
-          <WeatherStats data={weather.current_weather} unit={weather.current_weather_units} />
-          <DailyForecastList
-            data={weather.hourly}
-            unit={weather.hourly_units}
-          />
+          <WeatherStats data={weather.current} unit={weather.current_units} />
+          <DailyForecastList data={weather.daily} />
         </div>
         <HourlyForecastList />
       </div>

@@ -6,17 +6,17 @@ const SearchBar = () => {
       </h1>
       <div>
         <div className="flex items-center justify-center gap-2">
-          <div className="flex bg-Neutral-800 px-3 py-2 gap-2 rounded-md min-w-90">
+          <div className="flex bg-Neutral-800 px-3 py-2 gap-2 rounded-md min-w-90 cursor-pointer focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-Neutral-200">
             <img src="./icon-search.svg" alt="" />
             <input
-              className="w-full"
+              className="w-full cursor-pointer outline-0"
               type="text"
               placeholder="Search for a place..."
             />
           </div>
           <button
             type="button"
-            className="bg-Blue-500 px-2 py-1 rounded-md cursor-pointer"
+            className="bg-Blue-500 hover:bg-Blue-700 px-3 py-2 rounded-md cursor-pointer focus:outline-2 outline-offset-2 outline-Blue-500"
           >
             Search
           </button>
