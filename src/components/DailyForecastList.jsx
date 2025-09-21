@@ -1,10 +1,12 @@
+import weatherData from "../weatherData";
+
 const DailyForecastList = ({ data }) => {
   return (
     <div>
-      <p className="font-semibold mt-4 py-4">Daily forecast</p>
+      <p className="font-semibold mt-8 py-4">Daily forecast</p>
       <div className="grid grid-cols-7 gap-4">
         {data.time.map((date, idx) => (
-          <DailDailyForecastItem
+          <DailyForecastItem
             key={date}
             date={date}
             tempMax={data.temperature_2m_max[idx]}
@@ -17,28 +19,19 @@ const DailyForecastList = ({ data }) => {
   );
 };
 
-const DailDailyForecastItem = ({ date, tempMax, tempMin, weathercode }) => {
-  const weatherIcons = {
-    0: "icon-sunny.webp",
-    2: "icon-partly-cloudy.webp",
-    3: "icon-overcast.webp",
-    45: "icon-fog.webp",
-    55: "icon-drizzle.webp",
-    61: "icon-rain.webp",
-    71: "icon-snow.webp",
-    95: "icon-storm.webp",
-  };
-
-  const getWeatherIcon = (code) => weatherIcons[code] || "icon-sunny.webp";
-
+const DailyForecastItem = ({ date, tempMax, tempMin, weathercode }) => {
   const weekday = new Date(date).toLocaleDateString("en-US", {
     weekday: "short",
   });
 
   return (
-    <div className="bg-Neutral-700 text-center w-full px-2 py-3 rounded-xl border-Neutral-600 border-1">
+    <div className="bg-Neutral-700 border-[1.5px] border-Neutral-600 text-center w-full px-2 py-3 rounded-xl">
       <p>{weekday}</p>
-      <img className="w-15 m-auto" src={getWeatherIcon(weathercode)} alt="" />
+      <img
+        className="w-15 m-auto"
+        src={weatherData.getWeatherIcon(weathercode)}
+        alt=""
+      />
       <div className="flex justify-between items-center gap-x-2">
         <p>{tempMax}°</p>
         <p>{tempMin}°</p>

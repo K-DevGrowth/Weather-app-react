@@ -1,10 +1,28 @@
 import { useEffect, useRef, useState } from "react";
 import Dropdown from "./Dropdown";
 
-const Navbar = () => {
+const Navbar = ({ unit, setUnit }) => {
   const [open, setOpen] = useState(false);
+  const [system, setSystem] = useState("metric");
   const buttonRef = useRef(null);
   const menuRef = useRef(null);
+
+  const handleSwitch = () => {
+    setSystem(system === "imperial" ? "metric" : "imperial");
+    if (system === "metric") {
+      setUnit({
+        temp: "celsius",
+        wind: "kmh",
+        precipitation: "mm",
+      });
+    } else {
+      setUnit({
+        temp: "fahrenheit",
+        wind: "mph",
+        precipitation: "inch",
+      });
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -33,7 +51,7 @@ const Navbar = () => {
           type="button"
           ref={buttonRef}
           onClick={() => setOpen((prev) => !prev)}
-          className="inline-flex items-center gap-x-1.5 rounded-md px-3 py-2 focus:outline-2 focus:outline-offset-2 bg-Neutral-800 hover:bg-Neutral-700 cursor-pointer"
+          className="inline-flex items-center gap-x-1.5 rounded-md px-3 py-2 focus:outline-[1.5px] focus:outline-offset-2 bg-Neutral-800 hover:bg-Neutral-700 cursor-pointer"
         >
           <img src="/icon-units.svg" alt="Units Icon" />
           <span>Units</span>
@@ -42,15 +60,16 @@ const Navbar = () => {
         {open && (
           <div
             ref={menuRef}
-            className="absolute right-0 mt-2 w-52 p-2 rounded-md divide-y divide-Neutral-600 shadow-lg bg-Neutral-800"
+            className="absolute right-0 z-10 mt-2 w-52 p-2 rounded-md  shadow-lg bg-Neutral-800"
           >
             <button
               type="button"
-              className="hover:bg-Neutral-700 focus:bg-Neutral-700 px-2 py-1 rounded-md text-left w-full cursor-pointer focus:outline focus:outline-offset-2"
+              onClick={handleSwitch}
+              className="hover:bg-Neutral-700 focus:bg-Neutral-700 p-2 rounded-md text-left w-full cursor-pointer focus:outline focus:outline-offset-2"
             >
-              Switch to Imperial
+              Switch to {system === "imperial" ? "Metric" : "Imperial"}
             </button>
-            <Dropdown />
+            <Dropdown unit={unit} setUnit={setUnit} />
           </div>
         )}
       </div>

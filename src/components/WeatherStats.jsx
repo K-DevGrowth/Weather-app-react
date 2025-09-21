@@ -1,6 +1,6 @@
 const WeatherStats = ({ data, unit }) => {
   return (
-    <div className="grid grid-cols-4 mt-4 gap-4">
+    <div className="grid grid-cols-4 mt-6 gap-4">
       <WeatherStat
         label="Feels like"
         value={`${data.apparent_temperature}°`}
@@ -26,7 +26,7 @@ const WeatherStats = ({ data, unit }) => {
 
 const WeatherStat = ({ label, value, unit }) => {
   return (
-    <div className="bg-Neutral-700 w-full px-4 py-3 rounded-xl border-Neutral-600 border-1">
+    <div className="bg-Neutral-700 w-full border-[1.5px] border-Neutral-600 px-4 py-3 rounded-xl">
       <p className="text-Neutral-200">{label}</p>
       <p className="text-2xl mt-2">
         {value} {unit}
