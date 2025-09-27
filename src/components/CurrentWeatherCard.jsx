@@ -1,4 +1,5 @@
 import weatherData from "../weatherData";
+import PropTypes from "prop-types";
 
 const CurrentWeatherCard = ({ data, timezone }) => {
   const date = new Date();
@@ -10,7 +11,7 @@ const CurrentWeatherCard = ({ data, timezone }) => {
   });
 
   return (
-    <div className="relative">
+    <section className="relative">
       <img
         className="w-full rounded-xl h-60 object-cover"
         src="/bg-today-large.svg"
@@ -32,7 +33,7 @@ const CurrentWeatherCard = ({ data, timezone }) => {
           <p className="text-6xl font-bold">{data?.temperature_2m}°</p>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

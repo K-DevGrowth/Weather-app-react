@@ -3,9 +3,9 @@ import axios from "axios";
 const baseUrl = "https://api.open-meteo.com/v1/forecast"
 
 const getAll = (lat, lon, units) => {
-    const tempUnit = units.temp === "celsius" ? "fahrenheit" : "celsius";
-    const windUnit = units.wind === "kmh" ? "mph" : "kmh";
-    const precipUnit = units.precipitation === "mm" ? "inch" : "mm";
+    const tempUnit = units.temp !== "celsius" ? "fahrenheit" : "celsius";
+    const windUnit = units.wind !== "kmh" ? "mph" : "kmh";
+    const precipUnit = units.precipitation !== "mm" ? "inch" : "mm";
 
     const request = axios.get(
         `${baseUrl}?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,wind_speed_10m,weathercode` +

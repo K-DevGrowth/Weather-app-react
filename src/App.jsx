@@ -12,15 +12,13 @@ const App = () => {
   const [unit, setUnit] = useState({
     temp: "celsius",
     wind: "kmh",
-    precipitation: "mm"
+    precipitation: "mm",
   });
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(async (position) => {
-      const lat = position.coords.latitude;
-      const lon = position.coords.longitude;
-      const data = await weatherService.getAll(lat, lon, unit);
-      console.log(data);
+      const { latitude, longitude } = position.coords;
+      const data = await weatherService.getAll(latitude, longitude, unit);
       setWeather(data);
     });
   }, [unit]);
@@ -28,10 +26,10 @@ const App = () => {
   if (!weather) return <h1>Loading...</h1>;
 
   return (
-    <div className="relative w-screen h-dvh overflow-x-hidden text-Neutral-0 bg-Neutral-900">
+    <div className="relative w-screen h-dvh overflow-x-hidden p-4 text-Neutral-0 bg-Neutral-900">
       <Navbar unit={unit} setUnit={setUnit} />
       <SearchBar />
-      <div className="grid grid-cols-[2fr_1fr] py-4 px-10 gap-6">
+      <main className="grid grid-cols-[2fr_1fr] py-4 px-8 gap-6">
         <div>
           <CurrentWeatherCard
             timezone={weather.timezone}
@@ -41,7 +39,7 @@ const App = () => {
           <DailyForecastList data={weather.daily} />
         </div>
         <HourlyForecastList data={weather.hourly} />
-      </div>
+      </main>
     </div>
   );
 };

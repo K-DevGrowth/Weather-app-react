@@ -1,5 +1,39 @@
 import { useEffect, useRef, useState } from "react";
+import PropTypes from "prop-types";
 import Dropdown from "./Dropdown";
+
+const UNIT_SYSTEMS = {
+  metric: {
+    temp: "celsius",
+    wind: "kmh",
+    precipitation: "mm",
+  },
+  imperial: {
+    temp: "fahrenheit",
+    wind: "mph",
+    precipitation: "inch",
+  },
+};
+
+const SwitchUnitButton = ({ system, handleSwitch }) => {
+  return (
+    <button
+      type="button"
+      onClick={handleSwitch}
+      className="hover:bg-Neutral-700 focus:bg-Neutral-700 p-2 rounded-md text-left w-full cursor-pointer focus:outline focus:outline-offset-2"
+      aria-label={`Switch to ${
+        system === "imperial" ? "Metric" : "Imperial"
+      } units`}
+    >
+      Switch to {system === "imperial" ? "Metric" : "Imperial"}
+    </button>
+  );
+};
+
+SwitchUnitButton.propTypes = {
+  system: PropTypes.string.isRequired,
+  handleSwitch: PropTypes.func.isRequired,
+};
 
 const Navbar = ({ unit, setUnit }) => {
   const [open, setOpen] = useState(false);
@@ -8,20 +42,9 @@ const Navbar = ({ unit, setUnit }) => {
   const menuRef = useRef(null);
 
   const handleSwitch = () => {
-    setSystem(system === "imperial" ? "metric" : "imperial");
-    if (system === "metric") {
-      setUnit({
-        temp: "celsius",
-        wind: "kmh",
-        precipitation: "mm",
-      });
-    } else {
-      setUnit({
-        temp: "fahrenheit",
-        wind: "mph",
-        precipitation: "inch",
-      });
-    }
+    const nextSystem = system === "imperial" ? "metric" : "imperial";
+    setSystem(nextSystem);
+    setUnit(UNIT_SYSTEMS[nextSystem]);
   };
 
   useEffect(() => {
@@ -44,12 +67,15 @@ const Navbar = ({ unit, setUnit }) => {
   }, [open]);
 
   return (
-    <header className="px-10 pt-4 flex items-center justify-between *:cursor-pointer">
-      <img src="/logo.svg" alt="Weather App Logo" />
+    <header className="px-4 sm:px-10 pt-4 flex items-center justify-between *:cursor-pointer">
+      <img src="/logo.svg" alt="Weather App Logo" className="h-8 w-auto" />
       <div className="relative inline-block">
         <button
           type="button"
           ref={buttonRef}
+          aria-haspopup="true"
+          aria-controls="units-menu"
+          aria-expanded={open}
           onClick={() => setOpen((prev) => !prev)}
           className="inline-flex items-center gap-x-1.5 rounded-md px-3 py-2 focus:outline-[1.5px] focus:outline-offset-2 bg-Neutral-800 hover:bg-Neutral-700 cursor-pointer"
         >
@@ -60,21 +86,23 @@ const Navbar = ({ unit, setUnit }) => {
         {open && (
           <div
             ref={menuRef}
+            id="units-menu"
+            role="menu"
+            aria-label="Units menu"
             className="absolute right-0 z-10 mt-2 w-52 p-2 rounded-md  shadow-lg bg-Neutral-800"
           >
-            <button
-              type="button"
-              onClick={handleSwitch}
-              className="hover:bg-Neutral-700 focus:bg-Neutral-700 p-2 rounded-md text-left w-full cursor-pointer focus:outline focus:outline-offset-2"
-            >
-              Switch to {system === "imperial" ? "Metric" : "Imperial"}
-            </button>
+            <SwitchUnitButton system={system} handleSwitch={handleSwitch} />
             <Dropdown unit={unit} setUnit={setUnit} />
           </div>
         )}
       </div>
     </header>
   );
+};
+
+Navbar.propTypes = {
+  unit: PropTypes.object.isRequired,
+  setUnit: PropTypes.object.isRequired,
 };
 
 export default Navbar;
