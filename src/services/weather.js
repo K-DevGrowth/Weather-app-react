@@ -2,6 +2,8 @@ import axios from "axios";
 
 const baseUrl = "https://api.open-meteo.com/v1/forecast"
 
+const locationUrl = ""
+
 const getAll = (lat, lon, units) => {
     const tempUnit = units.temp !== "celsius" ? "fahrenheit" : "celsius";
     const windUnit = units.wind !== "kmh" ? "mph" : "kmh";
