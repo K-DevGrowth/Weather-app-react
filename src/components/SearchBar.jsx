@@ -15,7 +15,7 @@ const SearchBar = ({
       </h1>
       <div>
         <div className="flex flex-col sm:flex-row items-center justify-center py-4 gap-2 px-4 sm:min-w-[450px] sm:w-full w-screen">
-          <div className="flex relative bg-Neutral-800 px-3 py-2 gap-2 rounded-md w-full min-w-xl lg:min-w-[450px] cursor-pointer focus-within:outline-none focus-within:ring-1 focus-within:ring-Neutral-200">
+          <div className="flex relative bg-Neutral-800 px-3 py-2 gap-2 rounded-md w-full md:min-w-xl lg:min-w-[450px] cursor-pointer focus-within:outline-none focus-within:ring-1 focus-within:ring-Neutral-200">
             <img src="icon-search.svg" alt="" />
             <input
               value={search}
