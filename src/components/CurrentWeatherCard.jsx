@@ -24,9 +24,9 @@ const CurrentWeatherCard = ({ data, country }) => {
       />
       <div className="absolute inset-0 p-6 flex sm:flex-row flex-col justify-between items-center gap-4">
         <div>
-          <p className="font-bold text-2xl">
+          <h2 className="font-bold text-2xl">
             {country.name}, {country.country}
-          </p>
+          </h2>
           <p>{formattedDate}</p>
         </div>
         <div className="flex items-center gap-6">

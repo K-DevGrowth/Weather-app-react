@@ -60,7 +60,7 @@ const HourlyForecastList = ({ data }) => {
   return (
     <div className="bg-Neutral-800 p-4 rounded-xl w-full mx-auto">
       <div className="flex justify-between items-center">
-        <p className="font-semibold">Hourly forecast</p>
+        <h3 className="font-semibold">Hourly forecast</h3>
         <div className="relative">
           <button
             ref={buttonRef}

@@ -6,13 +6,13 @@ const getWeekday = (date) =>
 
 const DailyForecastItem = ({ date, tempMax, tempMin, weathercode }) => (
   <div className="bg-Neutral-700 border-[1.5px] border-Neutral-600 text-center w-full px-1 py-3 rounded-xl flex flex-col items-center justify-between min-w-0">
-    <p className="mb-2">{getWeekday(date)}</p>
+    <h3 className="mb-2">{getWeekday(date)}</h3>
     <img
       className="w-12 h-12 mx-auto mb-2"
       src={weatherData.getWeatherIcon(weathercode)}
       alt="Weather icon"
     />
-    <div className="flex justify-between items-center gap-x-3 w-full">
+    <div className="flex justify-between items-center md:gap-x-3 gap-x-6 md:w-full">
       <p>{tempMax}&deg;</p>
       <p>{tempMin}&deg;</p>
     </div>
