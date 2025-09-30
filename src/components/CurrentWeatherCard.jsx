@@ -1,7 +1,7 @@
 import weatherData from "../weatherData";
 import PropTypes from "prop-types";
 
-const CurrentWeatherCard = ({ data, timezone }) => {
+const CurrentWeatherCard = ({ data, country }) => {
   const date = new Date();
   const formattedDate = date.toLocaleDateString("en-US", {
     weekday: "short",
@@ -20,7 +20,7 @@ const CurrentWeatherCard = ({ data, timezone }) => {
       <div className="absolute inset-0 p-4 flex justify-between items-center gap-4">
         <div>
           <p className="font-bold text-2xl">
-            {timezone.replaceAll("_", " ").replace("/", ", ")}
+            {country.name}, {country.country}
           </p>
           <p>{formattedDate}</p>
         </div>

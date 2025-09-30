@@ -2,9 +2,14 @@ import axios from "axios";
 
 const baseUrl = "https://api.open-meteo.com/v1/forecast"
 
-const locationUrl = ""
+const locationUrl = "https://geocoding-api.open-meteo.com/v1/search"
 
-const getAll = (lat, lon, units) => {
+const getLocation = (country) => {
+    const request = axios.get(`${locationUrl}?name=${country}&count=5`)
+    return request.then(res => res.data)
+}
+
+const getWeather = (lat, lon, units) => {
     const tempUnit = units.temp !== "celsius" ? "fahrenheit" : "celsius";
     const windUnit = units.wind !== "kmh" ? "mph" : "kmh";
     const precipUnit = units.precipitation !== "mm" ? "inch" : "mm";
@@ -20,4 +25,4 @@ const getAll = (lat, lon, units) => {
     return request.then(res => res.data)
 }
 
-export default { getAll }
+export default { getWeather, getLocation }
