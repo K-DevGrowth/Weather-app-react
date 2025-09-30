@@ -13,9 +13,14 @@ const CurrentWeatherCard = ({ data, country }) => {
   return (
     <section className="relative sm:text-left text-center">
       <img
-        className="w-full rounded-xl h-60 object-cover"
+        className="w-full h-0 rounded-xl overflow-hidden sm:h-60 object-cover"
         src="bg-today-large.svg"
         alt="Current Weather"
+      />
+      <img
+        className="w-full sm:h-0 overflow-hidden visible object-cover"
+        src="bg-today-small.svg"
+        alt=""
       />
       <div className="absolute inset-0 p-6 flex sm:flex-row flex-col justify-between items-center gap-4">
         <div>

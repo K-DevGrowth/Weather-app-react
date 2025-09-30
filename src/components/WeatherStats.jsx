@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 const WeatherStat = ({ label, value, unit }) => (
   <div className="bg-Neutral-700 w-full border-[1.5px] border-Neutral-600 px-4 py-3 rounded-xl flex flex-col items-center justify-center min-w-0">
     <p className="text-Neutral-200 text-md mb-1">{label}</p>
-    <p className="text-2xl mt-2 font-semibold">
+    <p className="text-2xl mt-2 font-medium">
       {value}{" "}
       {unit && <span className="text-Neutral-400">{unit}</span>}
     </p>

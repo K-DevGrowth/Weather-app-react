@@ -9,13 +9,13 @@ const SearchBar = ({
   const [search, setSearch] = useState("");
 
   return (
-    <div className="flex flex-col items-center justify-center text-center w-full">
+    <section className="flex flex-col items-center justify-center text-center w-full">
       <h1 className="py-4 sm:text-5xl text-3xl font-header font-bold">
         How's the sky looking today?
       </h1>
       <div>
-        <div className="flex flex-col sm:flex-row items-center justify-center py-4 gap-2">
-          <div className="flex relative bg-Neutral-800 px-3 py-2 gap-2 rounded-md w-full min-w-[280px] sm:min-w-[450px] cursor-pointer focus-within:outline-none focus-within:ring-1 focus-within:ring-Neutral-200">
+        <div className="flex flex-col sm:flex-row items-center justify-center py-4 gap-2 px-4 sm:min-w-[450px] sm:w-full w-screen">
+          <div className="flex relative bg-Neutral-800 px-3 py-2 gap-2 rounded-md w-full min-w-xl lg:min-w-[450px] cursor-pointer focus-within:outline-none focus-within:ring-1 focus-within:ring-Neutral-200">
             <img src="icon-search.svg" alt="" />
             <input
               value={search}
@@ -54,13 +54,13 @@ const SearchBar = ({
 
           <button
             type="button"
-            className="bg-Blue-500 w-full hover:bg-Blue-700 px-3 py-2 rounded-md cursor-pointer focus:outline-none focus:ring-1 focus:ring-Blue-700"
+            className="bg-Blue-500 w-full md:min-w-30 hover:bg-Blue-700 px-3 py-2 rounded-md cursor-pointer focus:outline-none focus:ring-1 focus:ring-Blue-700"
           >
             Search
           </button>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

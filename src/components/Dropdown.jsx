@@ -43,10 +43,10 @@ const Dropdown = ({ unit, setUnit }) => {
                 key={option.value}
                 type="button"
                 onClick={() => handleSwitch(key, option.value)}
-                className={`flex justify-between items-center p-2 rounded-md w-full text-left transition-colors duration-150 ${
+                className={`flex justify-between cursor-pointer hover:bg-Neutral-700 items-center p-2 rounded-md w-full text-left transition-colors duration-150 ${
                   unit[key] === option.value
                     ? "bg-Neutral-700 text-Neural-0 font-semibold shadow"
-                    : "text-Neutral-200 hover:bg-Primary-600 hover:text-white"
+                    : ""
                 }`}
               >
                 {option.label}

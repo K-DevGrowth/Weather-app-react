@@ -5,7 +5,7 @@ const getWeekday = (date) =>
   new Date(date).toLocaleDateString("en-US", { weekday: "short" });
 
 const DailyForecastItem = ({ date, tempMax, tempMin, weathercode }) => (
-  <div className="bg-Neutral-700 border-[1.5px] border-Neutral-600 text-center w-full px-2 py-3 rounded-xl flex flex-col items-center justify-between min-w-0">
+  <div className="bg-Neutral-700 border-[1.5px] border-Neutral-600 text-center w-full px-1 py-3 rounded-xl flex flex-col items-center justify-between min-w-0">
     <p className="mb-2">{getWeekday(date)}</p>
     <img
       className="w-12 h-12 mx-auto mb-2"
@@ -29,7 +29,7 @@ DailyForecastItem.propTypes = {
 const DailyForecastList = ({ data }) => (
   <section className="w-full mx-auto">
     <p className="font-semibold mt-8 py-4 text-xl">Daily forecast</p>
-    <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2 lg:gap-4">
       {data.time.map((date, idx) => (
         <DailyForecastItem
           key={date}

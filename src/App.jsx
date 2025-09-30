@@ -92,7 +92,7 @@ const App = () => {
         location={location}
         loading={isLoading}
       />
-      <div className="grid sm:grid-cols-[2fr_1fr] py-4 sm:px-8 gap-6">
+      <div className="grid lg:grid-cols-[2fr_1fr] py-4 lg:px-8 sm:px-4 gap-6">
         {!weather && <LoadingSkeleton />}
         {weather && (
           <>

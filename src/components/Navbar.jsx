@@ -67,7 +67,7 @@ const Navbar = ({ unit, setUnit }) => {
   }, [open]);
 
   return (
-    <header className="px-1 sm:px-10 pt-4 flex items-center justify-between *:cursor-pointer">
+    <header className="px-1 lg:px-10 pt-4 flex items-center justify-between *:cursor-pointer">
       <img src="logo.svg" alt="Weather App Logo" className="h-8 w-auto" />
       <div className="relative inline-block">
         <button

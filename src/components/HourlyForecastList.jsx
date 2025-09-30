@@ -58,7 +58,7 @@ const HourlyForecastList = ({ data }) => {
     .map((item) => item.idx);
 
   return (
-    <div className="bg-Neutral-800 p-4 rounded-xl w-full max-w-md mx-auto">
+    <div className="bg-Neutral-800 p-4 rounded-xl w-full mx-auto">
       <div className="flex justify-between items-center">
         <p className="font-semibold">Hourly forecast</p>
         <div className="relative">
