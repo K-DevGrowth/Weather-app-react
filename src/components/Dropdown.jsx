@@ -37,23 +37,21 @@ const Dropdown = ({ unit, setUnit }) => {
       {DROPDOWN_CONFIG.map(({ label, key, options }) => (
         <div key={key} className="py-1">
           <p className="text-Neutral-300 font-semibold mb-1">{label}</p>
-          <div className="flex gap-2">
+          <div className="flex flex-col gap-2">
             {options.map((option) => (
               <button
                 key={option.value}
                 type="button"
                 onClick={() => handleSwitch(key, option.value)}
-                className={`flex-1 p-2 rounded-md text-left w-full transition-colors duration-150 ${
+                className={`flex justify-between items-center p-2 rounded-md w-full text-left transition-colors duration-150 ${
                   unit[key] === option.value
-                    ? "bg-Primary-500 text-white font-bold shadow"
-                    : "bg-Neutral-700 text-Neutral-200 hover:bg-Primary-600 hover:text-white"
+                    ? "bg-Neutral-700 text-Neural-0 font-semibold shadow"
+                    : "text-Neutral-200 hover:bg-Primary-600 hover:text-white"
                 }`}
               >
                 {option.label}
                 {unit[key] === option.value && (
-                  <span className="ml-2 text-Primary-200" aria-label="selected">
-                    &#10003;
-                  </span>
+                  <img src="icon-checkmark.svg" alt="" />
                 )}
               </button>
             ))}

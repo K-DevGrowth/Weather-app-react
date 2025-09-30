@@ -95,7 +95,7 @@ const HourlyForecastList = ({ data }) => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-3 mt-4">
+      <div className="flex flex-col gap-3 mt-4 max-h-125 overflow-x-hidden overflow-auto scroll-smooth">
         {filteredIndexes?.map((idx) => (
           <HourlyForecastItem
             key={data.time[idx]}

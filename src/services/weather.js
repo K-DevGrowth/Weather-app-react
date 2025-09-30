@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const baseUrl = "https://api.open-meteo.com/v1/forecast"
-
 const locationUrl = "https://geocoding-api.open-meteo.com/v1/search"
 
 const getLocation = (country) => {

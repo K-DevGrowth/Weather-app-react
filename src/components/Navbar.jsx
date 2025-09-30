@@ -20,7 +20,7 @@ const SwitchUnitButton = ({ system, handleSwitch }) => {
     <button
       type="button"
       onClick={handleSwitch}
-      className="hover:bg-Neutral-700 focus:bg-Neutral-700 p-2 rounded-md text-left w-full cursor-pointer focus:outline focus:outline-offset-2"
+      className="hover:bg-Neutral-700 focus:bg-Neutral-700 p-2 rounded-md text-left w-full cursor-pointer focus:outline-none focus:ring-1"
       aria-label={`Switch to ${
         system === "imperial" ? "Metric" : "Imperial"
       } units`}
@@ -67,8 +67,8 @@ const Navbar = ({ unit, setUnit }) => {
   }, [open]);
 
   return (
-    <header className="px-4 sm:px-10 pt-4 flex items-center justify-between *:cursor-pointer">
-      <img src="/logo.svg" alt="Weather App Logo" className="h-8 w-auto" />
+    <header className="px-1 sm:px-10 pt-4 flex items-center justify-between *:cursor-pointer">
+      <img src="logo.svg" alt="Weather App Logo" className="h-8 w-auto" />
       <div className="relative inline-block">
         <button
           type="button"
@@ -77,11 +77,11 @@ const Navbar = ({ unit, setUnit }) => {
           aria-controls="units-menu"
           aria-expanded={open}
           onClick={() => setOpen((prev) => !prev)}
-          className="inline-flex items-center gap-x-1.5 rounded-md px-3 py-2 focus:outline-[1.5px] focus:outline-offset-2 bg-Neutral-800 hover:bg-Neutral-700 cursor-pointer"
+          className="inline-flex items-center gap-x-1.5 rounded-md px-3 py-2 focus:ring-1 focus:outline-none bg-Neutral-800 hover:bg-Neutral-700 cursor-pointer"
         >
-          <img src="/icon-units.svg" alt="Units Icon" />
+          <img src="icon-units.svg" alt="Units Icon" />
           <span>Units</span>
-          <img src="/icon-dropdown.svg" alt="Dropdown Arrow" />
+          <img src="icon-dropdown.svg" alt="Dropdown Arrow" />
         </button>
         {open && (
           <div

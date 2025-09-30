@@ -12,7 +12,7 @@ import weatherService from "./services/weather";
 const App = () => {
   const [weather, setWeather] = useState(null);
   const [location, setLocation] = useState([]);
-  const [country, setCountry] = useState([]);
+  const [country, setCountry] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [unit, setUnit] = useState({
@@ -21,13 +21,21 @@ const App = () => {
     precipitation: "mm",
   });
 
+  const fetchWeather = (latitude, longitude) => {
+    setError(null);
+    setIsLoading(true);
+    weatherService
+      .getWeather(latitude, longitude, unit)
+      .then((res) => setWeather(res))
+      .catch((err) => {
+        setError(err);
+      })
+      .finally(() => setIsLoading(false));
+  };
+
   const handleSearchLocation = useCallback(
     debounce((query) => {
-      setError(null); // Reset error on new search
-      if (!query) {
-        setLocation([]);
-        return;
-      }
+      if (!query) return setLocation([]);
 
       weatherService
         .getLocation(query)
@@ -41,28 +49,39 @@ const App = () => {
   );
 
   const handleSelectLocation = (location) => {
-    setError(null); // Reset error on new selection
-    setIsLoading(true);
-    weatherService
-      .getWeather(location.latitude, location.longitude, unit)
-      .then((res) => setWeather(res))
-      .catch((err) => {
-        setError(err);
-      })
-      .finally(() => setIsLoading(false));
-    setCountry(location);
+    setCountry({
+      name: location.name,
+      country: location.country,
+      latitude: location.latitude,
+      longitude: location.longitude,
+    });
+    fetchWeather(location.latitude, location.longitude);
     setTimeout(() => {
       setLocation([]);
     }, 500);
   };
 
-  // useEffect(() => {
-  //   navigator.geolocation.getCurrentPosition(async (position) => {
-  //     const { latitude, longitude } = position.coords;
-  //     const data = await weatherService.getWeather(latitude, longitude, unit);
-  //     setWeather(data);
-  //   });
-  // }, [unit]);
+  useEffect(() => {
+    if (country && country.latitude && country.longitude) {
+      fetchWeather(country.latitude, country.longitude);
+    } else {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        weatherService.getWeather(latitude, longitude, unit).then((res) => {
+          setWeather(res);
+          const location = res.timezone.replaceAll("_", " ").split("/")[1];
+          weatherService.getLocation(location).then((res) =>
+            setCountry({
+              name: res.results[0].name,
+              country: res.results[0].country,
+              latitude,
+              longitude,
+            })
+          );
+        });
+      });
+    }
+  }, [unit, country]);
 
   return (
     <main className="relative w-screen h-dvh overflow-x-hidden p-4 text-Neutral-0 bg-Neutral-900">
@@ -73,7 +92,7 @@ const App = () => {
         location={location}
         loading={isLoading}
       />
-      <div className="grid grid-cols-[2fr_1fr] py-4 px-8 gap-6">
+      <div className="grid sm:grid-cols-[2fr_1fr] py-4 sm:px-8 gap-6">
         {!weather && <LoadingSkeleton />}
         {weather && (
           <>
