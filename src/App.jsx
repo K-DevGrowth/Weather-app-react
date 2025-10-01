@@ -1,52 +1,151 @@
-import { useCallback, useEffect, useState } from "react";
-import debounce from "lodash/debounce";
+import { useEffect, useState } from "react";
+import { useDebounce } from "react-use";
 import Navbar from "./components/Navbar";
-import SearchBar from "./components/SearchBar";
+import Search from "./components/Search";
 import CurrentWeatherCard from "./components/CurrentWeatherCard";
 import WeatherStats from "./components/WeatherStats";
 import DailyForecastList from "./components/DailyForecastList";
 import HourlyForecastList from "./components/HourlyForecastList";
-import LoadingSkeleton from "./components/LoadingSkeleton";
-import weatherService from "./services/weather";
+
+const API_LOCATION_URL = "https://geocoding-api.open-meteo.com/v1/search";
+const API_WEATHER_URL = "https://api.open-meteo.com/v1/forecast";
+const API_REVERSE_GEOCODING_URL =
+  "https://api.bigdatacloud.net/data/reverse-geocode-client";
+const API_OPTIONS = {
+  method: "GET",
+  headers: {
+    accept: "application/json",
+  },
+};
+
+const DEFAULT_LOCATION = {
+  name: "Ho Chi Minh City",
+  country: "Vietnam",
+  latitude: 10.8231,
+  longitude: 106.6297,
+};
 
 const App = () => {
   const [weather, setWeather] = useState(null);
-  const [location, setLocation] = useState([]);
-  const [country, setCountry] = useState({});
+  const [locationList, setLocationList] = useState([]);
+  const [country, setCountry] = useState(DEFAULT_LOCATION);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [unit, setUnit] = useState({
     temp: "celsius",
     wind: "kmh",
     precipitation: "mm",
   });
 
-  const fetchWeather = (latitude, longitude) => {
-    setError(null);
+  useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm]);
+
+  const fetchLocation = async (query = "") => {
     setIsLoading(true);
-    weatherService
-      .getWeather(latitude, longitude, unit)
-      .then((res) => setWeather(res))
-      .catch((err) => {
-        setError(err);
-      })
-      .finally(() => setIsLoading(false));
+    setErrorMessage(null);
+
+    try {
+      const response = await fetch(
+        `${API_LOCATION_URL}?name=${encodeURIComponent(query)}&count=5`,
+        API_OPTIONS
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+
+      if (!data) {
+        setErrorMessage(data.Error || "No locations found.");
+        setLocationList([]);
+        return;
+      }
+
+      setLocationList(data.results || []);
+    } catch (error) {
+      console.error("Error fetching location:", error);
+      setErrorMessage("Failed to fetch location data. Please try again later.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleSearchLocation = useCallback(
-    debounce((query) => {
-      if (!query) return setLocation([]);
+  useEffect(() => {
+    fetchLocation(debouncedSearchTerm);
+  }, [debouncedSearchTerm]);
 
-      weatherService
-        .getLocation(query)
-        .then((res) => setLocation(res.results || []))
-        .catch((err) => {
-          setError(err);
-          setLocation([]);
+  const fetchWeather = async (latitude, longitude) => {
+    setIsLoading(true);
+    setErrorMessage(null);
+
+    try {
+      const response = await fetch(
+        `${API_WEATHER_URL}?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,precipitation,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&hourly=temperature_2m,precipitation,relative_humidity_2m,weathercode&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weathercode&temperature_unit=${
+          unit.temp || "celsius"
+        }&wind_speed_unit=${unit.wind || "kmh"}&precipitation_unit=${
+          unit.precipitation || "mm"
+        }&timezone=auto`,
+        API_OPTIONS
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+
+      if (!data) {
+        setErrorMessage(data.Error || "No weather data found.");
+        setWeather(null);
+        return;
+      }
+
+      setWeather(data);
+    } catch (error) {
+      console.error("Error fetching weather:", error);
+      setErrorMessage("Failed to fetch weather data. Please try again later.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchLocationName = async (latitude, longitude) => {
+    try {
+      const response = await fetch(
+        `${API_REVERSE_GEOCODING_URL}?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+
+      if (data) {
+        setCountry({
+          name:
+            data.city ||
+            data.locality ||
+            data.principalSubdivision ||
+            "Unknown",
+          country: data.countryName || data.countryCode || "Unknown",
+          latitude: latitude,
+          longitude: longitude,
         });
-    }, 500),
-    []
-  );
+      }
+    } catch (error) {
+      console.error("Error fetching location name:", error);
+
+      setCountry({
+        name: "Current Location",
+        country: "",
+        latitude: latitude,
+        longitude: longitude,
+      });
+    }
+  };
 
   const handleSelectLocation = (location) => {
     setCountry({
@@ -56,44 +155,44 @@ const App = () => {
       longitude: location.longitude,
     });
     fetchWeather(location.latitude, location.longitude);
-    setTimeout(() => {
-      setLocation([]);
-    }, 500);
+    setLocationList([]);
   };
 
   useEffect(() => {
-    if (country && country.latitude && country.longitude) {
-      fetchWeather(country.latitude, country.longitude);
-    } else {
-      navigator.geolocation.getCurrentPosition((position) => {
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
         const { latitude, longitude } = position.coords;
-        weatherService.getWeather(latitude, longitude, unit).then((res) => {
-          setWeather(res);
-          const location = res.timezone.replaceAll("_", " ").split("/")[1];
-          weatherService.getLocation(location).then((res) =>
-            setCountry({
-              name: res.results[0].name,
-              country: res.results[0].country,
-              latitude,
-              longitude,
-            })
-          );
-        });
-      });
+        await Promise.all([
+          fetchWeather(latitude, longitude),
+          fetchLocationName(latitude, longitude),
+        ]);
+      },
+      () => {
+        // fallback nếu user từ chối
+        fetchWeather(DEFAULT_LOCATION.latitude, DEFAULT_LOCATION.longitude);
+        setCountry(DEFAULT_LOCATION);
+      }
+    );
+  }, []);
+
+  useEffect(() => {
+    if (country) {
+      fetchWeather(country.latitude, country.longitude);
     }
   }, [unit, country]);
 
   return (
-    <main className="relative w-screen h-dvh overflow-x-hidden p-4 text-Neutral-0 bg-Neutral-900">
+    <main className="relative p-4 w-screen h-dvh overflow-x-hidden">
       <Navbar unit={unit} setUnit={setUnit} />
-      <SearchBar
-        handleSearchLocation={handleSearchLocation}
+      <Search
         handleSelectLocation={handleSelectLocation}
-        location={location}
-        loading={isLoading}
+        locationList={locationList}
+        isLoading={isLoading}
+        errorMessage={errorMessage}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
       />
       <div className="grid lg:grid-cols-[2fr_1fr] py-4 lg:px-8 sm:px-4 gap-6">
-        {!weather && <LoadingSkeleton />}
         {weather && (
           <>
             <div>
