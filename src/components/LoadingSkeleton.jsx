@@ -2,7 +2,7 @@ const LoadingSkeleton = () => {
   return (
     <>
       <div>
-        <section className="h-60 flex flex-col items-center justify-center bg-Neutral-800 rounded-xl ">
+        <section className="h-60 flex flex-col items-center justify-center bg-blue-50 rounded-xl shadow-sm">
           <div className="w-30 h-10 overflow-hidden">
             <img
               className="w-30 h-30 rotate-180 object-cover"
@@ -10,37 +10,36 @@ const LoadingSkeleton = () => {
               alt="Current Weather"
             />
           </div>
-          <p>Loading...</p>
+          <p className="text-blue-700 font-semibold">Loading...</p>
         </section>
 
         <section className="grid grid-cols-2 sm:grid-cols-4 mt-6 gap-4">
-          <div className="bg-Neutral-700 w-full border-[1.5px] border-Neutral-600 px-4 py-3 rounded-xl flex flex-col items-center justify-center min-w-0">
-            <p className="text-Neutral-200 text-md mb-1">Feel likes</p>
-            <p className="text-2xl mt-2 font-semibold">-</p>
-          </div>
-          <div className="bg-Neutral-700 w-full border-[1.5px] border-Neutral-600 px-4 py-3 rounded-xl flex flex-col items-center justify-center min-w-0">
-            <p className="text-Neutral-200 text-md mb-1">Humidity</p>
-            <p className="text-2xl mt-2 font-semibold">-</p>
-          </div>
-          <div className="bg-Neutral-700 w-full border-[1.5px] border-Neutral-600 px-4 py-3 rounded-xl flex flex-col items-center justify-center min-w-0">
-            <p className="text-Neutral-200 text-md mb-1">Wind</p>
-            <p className="text-2xl mt-2 font-semibold">-</p>
-          </div>
-          <div className="bg-Neutral-700 w-full border-[1.5px] border-Neutral-600 px-4 py-3 rounded-xl flex flex-col items-center justify-center min-w-0">
-            <p className="text-Neutral-200 text-md mb-1">Precipitation</p>
-            <p className="text-2xl mt-2 font-semibold">-</p>
-          </div>
+          {["Feel likes", "Humidity", "Wind", "Precipitation"].map(
+            (label, idx) => (
+              <div
+                key={label}
+                className="bg-white w-full border-blue-100 border-[1.5px] px-4 py-3 rounded-xl flex flex-col items-center justify-center min-w-0 shadow-sm"
+              >
+                <p className="text-blue-700 text-md mb-1 font-semibold">
+                  {label}
+                </p>
+                <p className="text-2xl mt-2 font-semibold text-gray-700">-</p>
+              </div>
+            )
+          )}
         </section>
 
         <section className="w-full mx-auto">
-          <p className="font-semibold mt-8 py-4 text-xl">Daily forecast</p>
+          <p className="font-semibold mt-8 py-4 text-xl text-blue-700">
+            Daily forecast
+          </p>
           <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-4 h-35">
             {Array(7)
               .fill("")
               .map((item, idx) => (
                 <div
                   key={idx}
-                  className="bg-Neutral-700 border-[1.5px] border-Neutral-600 text-center w-full px-2 py-3 rounded-xl flex flex-col items-center justify-between min-w-0"
+                  className="bg-white border-blue-100 text-center w-full px-2 py-3 rounded-xl flex flex-col items-center justify-between min-w-0 shadow-sm"
                 >
                   {item}
                 </div>
@@ -49,16 +48,16 @@ const LoadingSkeleton = () => {
         </section>
       </div>
 
-      <section className="bg-Neutral-800 p-4 rounded-xl w-full max-w-md mx-auto">
+      <section className="bg-blue-50 p-4 rounded-xl w-full max-w-md mx-auto shadow-sm">
         <div className="flex justify-between items-center">
-          <p className="font-semibold">Hourly forecast</p>
+          <p className="font-semibold text-blue-700">Hourly forecast</p>
           <div className="relative">
             <button
               aria-haspopup="true"
-              aria-expanded={open}
+              aria-expanded={false}
               aria-label="days-menu"
               type="button"
-              className="inline-flex cursor-pointer gap-x-2 px-3 py-2 rounded-md focus:outline-[1.5px] focus:outline-Neutral-0 focus:outline-offset-2 bg-Neutral-600 hover:bg-Neutral-700"
+              className="inline-flex cursor-pointer gap-x-2 px-3 py-2 rounded-md focus:outline-[1.5px] focus:outline-blue-100 focus:outline-offset-2 bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold"
             >
               <span>-</span>
               <img src="/icon-dropdown.svg" alt="" />
@@ -72,7 +71,7 @@ const LoadingSkeleton = () => {
             .map((item, idx) => (
               <div
                 key={idx}
-                className="flex justify-between items-center px-3 py-1 h-13 rounded-md border-[1.5px] border-Neutral-600 bg-Neutral-700"
+                className="flex justify-between items-center px-3 py-1 h-13 rounded-md border-[1.5px] border-blue-100 bg-white shadow-sm"
               >
                 {item}
               </div>

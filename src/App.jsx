@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useDebounce } from "react-use";
 import Navbar from "./components/Navbar";
 import Search from "./components/Search";
@@ -167,10 +167,14 @@ const App = () => {
           fetchLocationName(latitude, longitude),
         ]);
       },
-      () => {
-        // fallback nếu user từ chối
-        fetchWeather(DEFAULT_LOCATION.latitude, DEFAULT_LOCATION.longitude);
-        setCountry(DEFAULT_LOCATION);
+      async () => {
+        await Promise.all([
+          fetchWeather(DEFAULT_LOCATION.latitude, DEFAULT_LOCATION.longitude),
+          fetchLocationName(
+            DEFAULT_LOCATION.latitude,
+            DEFAULT_LOCATION.longitude
+          ),
+        ]);
       }
     );
   }, []);
@@ -181,8 +185,9 @@ const App = () => {
     }
   }, [unit, country]);
 
+
   return (
-    <main className="relative p-4 w-screen h-dvh overflow-x-hidden">
+    <main className="relative bg-blue-100 dark:bg-Neutral-900 dark:text-Neutral-0 p-4 w-screen h-dvh overflow-x-hidden">
       <Navbar unit={unit} setUnit={setUnit} />
       <Search
         handleSelectLocation={handleSelectLocation}

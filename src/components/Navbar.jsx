@@ -20,7 +20,7 @@ const SwitchUnitButton = ({ system, handleSwitch }) => {
     <button
       type="button"
       onClick={handleSwitch}
-      className="hover:bg-Neutral-700 focus:bg-Neutral-700 p-2 rounded-md text-left w-full cursor-pointer focus:outline-none focus:ring-1"
+      className="dark:hover:bg-Neutral-700 dark:focus:bg-Neutral-700 hover:bg-blue-50 focus:bg-blue-50 p-2 rounded-md text-left w-full cursor-pointer focus:outline-none focus:ring-1 focus:ring-blue-300"
       aria-label={`Switch to ${
         system === "imperial" ? "Metric" : "Imperial"
       } units`}
@@ -35,9 +35,16 @@ SwitchUnitButton.propTypes = {
   handleSwitch: PropTypes.func.isRequired,
 };
 
+
 const Navbar = ({ unit, setUnit }) => {
   const [open, setOpen] = useState(false);
   const [system, setSystem] = useState("metric");
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("theme") === "dark" || window.matchMedia("(prefers-color-scheme: dark)").matches;
+    }
+    return false;
+  });
   const buttonRef = useRef(null);
   const menuRef = useRef(null);
 
@@ -46,6 +53,20 @@ const Navbar = ({ unit, setUnit }) => {
     setSystem(nextSystem);
     setUnit(UNIT_SYSTEMS[nextSystem]);
   };
+
+  const handleToggleDarkMode = () => {
+    setDarkMode((prev) => !prev);
+  };
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [darkMode]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -67,34 +88,45 @@ const Navbar = ({ unit, setUnit }) => {
   }, [open]);
 
   return (
-    <header className="px-1 lg:px-10 pt-4 flex items-center justify-between *:cursor-pointer">
-      <img src="logo.svg" alt="Weather App Logo" className="h-8 w-auto" />
-      <div className="relative inline-block">
+    <header className="px-1 lg:px-10 pt-4 flex items-center justify-between">
+      <img src="logo.svg" alt="Weather App Logo" className="h-8 w-auto brightness-0 dark:brightness-100" />
+      <div className="flex items-center gap-4">
         <button
           type="button"
-          ref={buttonRef}
-          aria-haspopup="true"
-          aria-controls="units-menu"
-          aria-expanded={open}
-          onClick={() => setOpen((prev) => !prev)}
-          className="inline-flex items-center gap-x-1.5 rounded-md px-3 py-2 focus:ring-1 focus:outline-none bg-Neutral-800 hover:bg-Neutral-700 cursor-pointer"
+          aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+          onClick={handleToggleDarkMode}
+          className="inline-flex items-center secondary-button dark:text-Neutral-0 dark:bg-Neutral-800 dark:hover:bg-Neutral-700"
         >
-          <img src="icon-units.svg" alt="Units Icon" />
-          <span>Units</span>
-          <img src="icon-dropdown.svg" alt="Dropdown Arrow" />
+          
+          <span>{darkMode ? "Dark" : "Light"} Mode</span>
         </button>
-        {open && (
-          <div
-            ref={menuRef}
-            id="units-menu"
-            role="menu"
-            aria-label="Units menu"
-            className="absolute right-0 z-10 mt-2 w-52 p-2 rounded-md  shadow-lg bg-Neutral-800"
+        <div className="relative inline-block">
+          <button
+            type="button"
+            ref={buttonRef}
+            aria-haspopup="true"
+            aria-controls="units-menu"
+            aria-expanded={open}
+            onClick={() => setOpen((prev) => !prev)}
+            className="inline-flex items-center gap-x-1.5 secondary-button dark:text-Neutral-0 dark:bg-Neutral-800 dark:hover:bg-Neutral-700"
           >
-            <SwitchUnitButton system={system} handleSwitch={handleSwitch} />
-            <Dropdown unit={unit} setUnit={setUnit} />
-          </div>
-        )}
+            <img className="dark:brightness-100 brightness-0" src="icon-units.svg" alt="Units Icon" />
+            <span>Units</span>
+            <img className="dark:brightness-100 brightness-0" src="icon-dropdown.svg" alt="Dropdown Arrow" />
+          </button>
+          {open && (
+            <div
+              ref={menuRef}
+              id="units-menu"
+              role="menu"
+              aria-label="Units menu"
+              className="absolute right-0 z-10 mt-2 w-52 p-2 rounded-md  shadow-lg bg-Neutral-0 dark:bg-Neutral-800"
+            >
+              <SwitchUnitButton system={system} handleSwitch={handleSwitch} />
+              <Dropdown unit={unit} setUnit={setUnit} />
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );

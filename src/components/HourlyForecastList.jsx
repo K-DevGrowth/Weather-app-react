@@ -58,7 +58,7 @@ const HourlyForecastList = ({ data }) => {
     .map((item) => item.idx);
 
   return (
-    <div className="bg-Neutral-800 p-4 rounded-xl w-full mx-auto">
+    <div className="dark:bg-Neutral-800 bg-white border-blue-300 border-1 dark:border-Neutral-600 p-4 rounded-xl w-full mx-auto">
       <div className="flex justify-between items-center">
         <h3 className="font-semibold">Hourly forecast</h3>
         <div className="relative">
@@ -69,7 +69,7 @@ const HourlyForecastList = ({ data }) => {
             aria-label="days-menu"
             onClick={() => setOpen((prev) => !prev)}
             type="button"
-            className="inline-flex cursor-pointer gap-x-2 px-3 py-2 rounded-md focus:outline-[1.5px] focus:outline-Neutral-0 focus:outline-offset-2 bg-Neutral-600 hover:bg-Neutral-700"
+            className="primary-button inline-flex gap-x-2 dark:bg-Neutral-600 dark:hover:bg-Neutral-700"
           >
             <span>{selectedDay}</span>
             <img src="/icon-dropdown.svg" alt="" />
@@ -79,13 +79,13 @@ const HourlyForecastList = ({ data }) => {
               role="menu"
               aria-label="days menu"
               ref={menuRef}
-              className="absolute right-0 mt-2 w-42 z-20 p-2 border-Neutral-600 border-1 rounded-xl bg-Neutral-800"
+              className="absolute right-0 mt-2 w-42 z-20 p-2 bg-white border-blue-200 border-1 rounded-xl dark:bg-Neutral-800 dark:border-Neutral-600"
             >
               {days.map((day) => (
                 <button
                   key={day}
                   onClick={() => handleSelectedDay(day)}
-                  className="hover:bg-Neutral-700 cursor-pointer rounded-md px-3 py-2 w-full text-left"
+                  className="dark:hover:bg-Neutral-700 hover:bg-blue-100 cursor-pointer rounded-md px-3 py-2 w-full text-left"
                 >
                   {day}
                 </button>
@@ -115,7 +115,7 @@ const HourlyForecastItem = ({ date, temp, weathercode }) => {
     hour12: true,
   });
   return (
-    <div className="flex justify-between items-center px-3 py-1 rounded-md border-[1.5px] border-Neutral-600 bg-Neutral-700">
+    <div className="flex justify-between items-center px-3 py-1 rounded-md border-[1.5px] bg-blue-50 border-blue-300 dark:border-Neutral-600 dark:bg-Neutral-700">
       <div className="flex items-center gap-x-4">
         <img
           className="w-10"

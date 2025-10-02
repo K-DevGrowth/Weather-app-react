@@ -3,6 +3,8 @@
 
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
     --color-Neutral-900: hsl(243, 96%, 9%);
     --color-Neutral-800: hsl(243, 27%, 20%);
@@ -24,11 +26,18 @@
     body {
         font-family: "DM Sans", serif;
         font-optical-sizing: auto;
-        color: var(--color-Neutral-0);
-        background-color: var(--color-Neutral-900);
+        font-size: 18px;
     }
 
     h1 {
-        @apply font-header max-w-4xl text-center font-bold leading-tight tracking-[-1%] text-Neutral-0 sm:text-[64px] sm:leading-[76px]
+        @apply font-header max-w-4xl text-center font-bold leading-tight tracking-[-1%] sm:text-[64px] sm:leading-[76px]
     }
+}
+
+@utility primary-button {
+    @apply rounded-md cursor-pointer px-3 py-2 bg-Blue-500 text-Neutral-0 hover:bg-Blue-700 focus:outline-none focus:ring-Blue-700 focus:ring-2;
+}
+
+@utility secondary-button {
+    @apply rounded-md cursor-pointer px-3 py-2 bg-Neutral-0 text-Neutral-900 hover:bg-blue-50 focus:outline-none focus:ring-blue-50 focus:ring-2;
 }

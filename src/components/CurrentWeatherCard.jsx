@@ -11,7 +11,7 @@ const CurrentWeatherCard = ({ data, country }) => {
   });
 
   return (
-    <section className="relative sm:text-left text-center">
+    <section className="relative sm:text-left text-center text-Neutral-0">
       <img
         className="w-full h-0 rounded-xl overflow-hidden sm:h-60 object-cover"
         src="bg-today-large.svg"
@@ -40,6 +40,19 @@ const CurrentWeatherCard = ({ data, country }) => {
       </div>
     </section>
   );
+};
+
+CurrentWeatherCard.propTypes = {
+  data: PropTypes.shape({
+    temperature_2m: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    weathercode: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }),
+  country: PropTypes.shape({
+    name: PropTypes.string,
+    country: PropTypes.string,
+    latitude: PropTypes.number,
+    longitude: PropTypes.number,
+  }).isRequired,
 };
 
 export default CurrentWeatherCard;

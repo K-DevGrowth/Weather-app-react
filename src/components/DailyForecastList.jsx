@@ -5,14 +5,14 @@ const getWeekday = (date) =>
   new Date(date).toLocaleDateString("en-US", { weekday: "short" });
 
 const DailyForecastItem = ({ date, tempMax, tempMin, weathercode }) => (
-  <div className="bg-Neutral-700 border-[1.5px] border-Neutral-600 text-center w-full px-1 py-3 rounded-xl flex flex-col items-center justify-between min-w-0">
+  <div className="dark:bg-Neutral-700 bg-white border-blue-300 border dark:border-Neutral-600 text-center w-full px-2 py-3 rounded-xl flex flex-col items-center justify-between">
     <h3 className="mb-2">{getWeekday(date)}</h3>
     <img
       className="w-12 h-12 mx-auto mb-2"
       src={weatherData.getWeatherIcon(weathercode)}
       alt="Weather icon"
     />
-    <div className="flex justify-between items-center md:gap-x-3 gap-x-6 md:w-full">
+    <div className="flex justify-between items-center md:gap-x-2 gap-x-6">
       <p>{tempMax}&deg;</p>
       <p>{tempMin}&deg;</p>
     </div>

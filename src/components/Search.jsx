@@ -14,7 +14,7 @@ const Search = ({
       </h1>
       <div>
         <div className="flex flex-col sm:flex-row items-center justify-center py-4 gap-2 px-4 md:min-w-[450px] md:w-full w-screen">
-          <div className="flex relative bg-Neutral-800 px-3 py-2 gap-2 rounded-md w-full md:min-w-xl lg:min-w-[450px] cursor-pointer focus-within:outline-none focus-within:ring-1 focus-within:ring-Neutral-200">
+          <div className="flex relative dark:bg-Neutral-800 bg-Neutral-0 px-3 py-2 gap-2 rounded-md w-full md:min-w-xl lg:min-w-[450px] cursor-pointer focus-within:outline-none focus-within:ring-1 focus-within:ring-Neutral-200">
             <img src="icon-search.svg" alt="" />
             <input
               value={searchTerm}
@@ -25,7 +25,7 @@ const Search = ({
             />
 
             {locationList.length > 0 && (
-              <div className="absolute flex flex-col left-0 mt-10 p-2 rounded-lg shadow-lg w-full bg-Neutral-800 z-10">
+              <div className="absolute flex flex-col left-0 mt-10 p-2 rounded-lg shadow-lg w-full bg-Neutral-0 dark:bg-Neutral-800 z-10">
                 {isLoading ? (
                   <div className="inline-flex gap-x-2 px-3 py-1">
                     <img src="icon-loading.svg" alt="" />
@@ -36,7 +36,7 @@ const Search = ({
                 ) : (
                   locationList.map((location) => (
                     <button
-                      className="hover:bg-Neutral-700 text-left px-3 py-2 rounded-md focus:outline-none focus:bg-Neutral-700 focus:ring-Neutral-600 focus:ring-1"
+                      className="text-left px-3 py-2 rounded-md focus:outline-none hover:bg-blue-100 focus:bg-blue-300 ring-blue-200 dark:focus:bg-Neutral-600 dark:hover:bg-Neutral-700 dark:focus:ring-Neutral-600 focus:ring-1"
                       onClick={() => {
                         handleSelectLocation(location);
                         setSearchTerm("");
@@ -53,7 +53,7 @@ const Search = ({
 
           <button
             type="button"
-            className="bg-Blue-500 w-full md:min-w-30 hover:bg-Blue-700 px-3 py-2 rounded-md cursor-pointer focus:outline-none focus:ring-1 focus:ring-Blue-700"
+            className="primary-button w-full md:min-w-30"
           >
             Search
           </button>

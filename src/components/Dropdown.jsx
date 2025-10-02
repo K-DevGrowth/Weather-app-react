@@ -33,25 +33,25 @@ const Dropdown = ({ unit, setUnit }) => {
   };
 
   return (
-    <div className="divide-y divide-Neutral-600 w-full max-w-xs bg-Neutral-800 rounded-lg shadow-lg p-2">
+    <div className="divide-y divide-Neutral-800 dark:divide-Neutral-600 w-full max-w-xs dark:bg-Neutral-800 rounded-lg p-2">
       {DROPDOWN_CONFIG.map(({ label, key, options }) => (
         <div key={key} className="py-1">
-          <p className="text-Neutral-300 font-semibold mb-1">{label}</p>
+          <p className="dark:text-Neutral-300 text-Neutral-600 font-semibold mb-1">{label}</p>
           <div className="flex flex-col gap-2">
             {options.map((option) => (
               <button
                 key={option.value}
                 type="button"
                 onClick={() => handleSwitch(key, option.value)}
-                className={`flex justify-between cursor-pointer hover:bg-Neutral-700 items-center p-2 rounded-md w-full text-left transition-colors duration-150 ${
+                className={`flex justify-between cursor-pointer focus:ring-1 focus:ring-blue-300 hover:bg-blue-50 dark:hover:bg-Neutral-700 items-center p-2 rounded-md w-full text-left transition-colors duration-150 ${
                   unit[key] === option.value
-                    ? "bg-Neutral-700 text-Neural-0 font-semibold shadow"
+                    ? "dark:bg-Neutral-700 bg-blue-50 text-Neural-0 font-semibold"
                     : ""
                 }`}
               >
                 {option.label}
                 {unit[key] === option.value && (
-                  <img src="icon-checkmark.svg" alt="" />
+                  <img className="dark:brightness-100 brightness-0" src="icon-checkmark.svg" alt="" />
                 )}
               </button>
             ))}
