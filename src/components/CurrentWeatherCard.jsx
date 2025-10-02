@@ -1,5 +1,5 @@
-import weatherData from "../weatherData";
 import PropTypes from "prop-types";
+import weatherUtils from "../utils/weatherUtils";
 
 const CurrentWeatherCard = ({ data, country }) => {
   const date = new Date();
@@ -32,7 +32,7 @@ const CurrentWeatherCard = ({ data, country }) => {
         <div className="flex items-center gap-6">
           <img
             className="w-20"
-            src={weatherData.getWeatherIcon(data?.weathercode)}
+            src={weatherUtils.getWeatherIcon(data?.weathercode)}
             alt=""
           />
           <p className="text-6xl font-bold">{data?.temperature_2m}°</p>
