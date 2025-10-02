@@ -32,8 +32,6 @@ const useLocationSearch = () => {
     fetchLocations();
   }, [debouncedSearch]);
 
-
-
   return { searchTerm, setSearchTerm, locationList, setLocationList, isSearching };
 }
 

@@ -39,8 +39,10 @@ const App = () => {
     setLocationList,
     isSearching,
   } = useLocationSearch();
+
   const { country, isLocating, handleSelectLocation } =
     useCurrentLocation(DEFAULT_LOCATION);
+
   const { weather, isWeatherLoading, isWeatherError } = useWeather(
     country?.latitude,
     country?.longitude,
