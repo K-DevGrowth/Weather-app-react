@@ -11,7 +11,7 @@ const CurrentWeatherCard = ({ data, country }) => {
   });
 
   return (
-    <section className="relative sm:text-left text-center text-Neutral-0">
+    <section className="relative sm:text-left text-center px-4 text-Neutral-0">
       <img
         className="w-full h-0 rounded-xl overflow-hidden sm:h-60 object-cover"
         src="bg-today-large.svg"
@@ -22,7 +22,7 @@ const CurrentWeatherCard = ({ data, country }) => {
         src="bg-today-small.svg"
         alt=""
       />
-      <div className="absolute inset-0 p-6 flex sm:flex-row flex-col justify-between items-center gap-4">
+      <div className="absolute inset-0 p-8 flex sm:flex-row flex-col justify-between items-center gap-4">
         <div>
           <h2 className="font-bold text-2xl">
             {country.name}, {country.country}

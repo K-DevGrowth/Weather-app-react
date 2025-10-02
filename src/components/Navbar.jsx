@@ -88,9 +88,9 @@ const Navbar = ({ unit, setUnit }) => {
   }, [open]);
 
   return (
-    <header className="px-1 lg:px-10 pt-4 flex items-center justify-between">
+    <header className="lg:px-10 p-4 flex items-center justify-between">
       <img src="logo.svg" alt="Weather App Logo" className="h-8 w-auto brightness-0 dark:brightness-100" />
-      <div className="flex items-center gap-4">
+      <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
         <button
           type="button"
           aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}

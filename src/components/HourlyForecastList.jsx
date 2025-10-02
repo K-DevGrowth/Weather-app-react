@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import weatherData from "../weatherData";
+import weatherUtils from "../utils/weatherUtils";
 
 const WEEKDAYS = [
   "Sunday",
@@ -58,7 +58,7 @@ const HourlyForecastList = ({ data }) => {
     .map((item) => item.idx);
 
   return (
-    <div className="dark:bg-Neutral-800 bg-white border-blue-300 border-1 dark:border-Neutral-600 p-4 rounded-xl w-full mx-auto">
+    <section className="dark:bg-Neutral-800 bg-white border-blue-300 border dark:border-Neutral-600 p-4 rounded-xl w-full mx-auto">
       <div className="flex justify-between items-center">
         <h3 className="font-semibold">Hourly forecast</h3>
         <div className="relative">
@@ -69,7 +69,7 @@ const HourlyForecastList = ({ data }) => {
             aria-label="days-menu"
             onClick={() => setOpen((prev) => !prev)}
             type="button"
-            className="primary-button inline-flex gap-x-2 dark:bg-Neutral-600 dark:hover:bg-Neutral-700"
+            className="primary-button inline-flex gap-x-2 dark:focus:ring-Neutral-200 dark:bg-Neutral-600 dark:hover:bg-Neutral-700"
           >
             <span>{selectedDay}</span>
             <img src="/icon-dropdown.svg" alt="" />
@@ -95,7 +95,7 @@ const HourlyForecastList = ({ data }) => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-3 mt-4 max-h-125 overflow-x-hidden overflow-auto scroll-smooth">
+      <div className="flex flex-col gap-3 mt-4 max-h-124 overflow-x-hidden overflow-y-auto scroll-smooth">
         {filteredIndexes?.map((idx) => (
           <HourlyForecastItem
             key={data.time[idx]}
@@ -105,7 +105,7 @@ const HourlyForecastList = ({ data }) => {
           />
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 
@@ -115,11 +115,11 @@ const HourlyForecastItem = ({ date, temp, weathercode }) => {
     hour12: true,
   });
   return (
-    <div className="flex justify-between items-center px-3 py-1 rounded-md border-[1.5px] bg-blue-50 border-blue-300 dark:border-Neutral-600 dark:bg-Neutral-700">
+    <div className="flex justify-between items-center px-3 py-1 rounded-md border bg-blue-50 border-blue-300 dark:border-Neutral-600 dark:bg-Neutral-700">
       <div className="flex items-center gap-x-4">
         <img
           className="w-10"
-          src={weatherData.getWeatherIcon(weathercode)}
+          src={weatherUtils.getWeatherIcon(weathercode)}
           alt="Weather icon"
         />
         <p>{hour}</p>

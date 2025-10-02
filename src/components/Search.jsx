@@ -1,14 +1,13 @@
 const Search = ({
   handleSelectLocation,
-  getCurrentLocation,
   locationList,
-  isLoading,
-  errorMessage,
+  setLocationList,
+  isSearching,
   searchTerm,
   setSearchTerm,
 }) => {
   return (
-    <section className="flex flex-col items-center justify-center text-center w-full">
+    <section className="flex flex-col items-center justify-center text-center w-full px-4">
       <h1 className="py-4 sm:text-5xl text-3xl">
         How's the sky looking today?
       </h1>
@@ -26,13 +25,15 @@ const Search = ({
 
             {locationList.length > 0 && (
               <div className="absolute flex flex-col left-0 mt-10 p-2 rounded-lg shadow-lg w-full bg-Neutral-0 dark:bg-Neutral-800 z-10">
-                {isLoading ? (
+                {isSearching ? (
                   <div className="inline-flex gap-x-2 px-3 py-1">
-                    <img src="icon-loading.svg" alt="" />
+                    <img
+                      className="animate-spin"
+                      src="icon-loading.svg"
+                      alt=""
+                    />
                     <p>Search in progress</p>
                   </div>
-                ) : errorMessage ? (
-                  <p className="text-red-500 text-center">{errorMessage}</p>
                 ) : (
                   locationList.map((location) => (
                     <button
@@ -40,6 +41,7 @@ const Search = ({
                       onClick={() => {
                         handleSelectLocation(location);
                         setSearchTerm("");
+                        setLocationList([]);
                       }}
                       key={location.id}
                     >
@@ -51,10 +53,7 @@ const Search = ({
             )}
           </div>
 
-          <button
-            type="button"
-            className="primary-button w-full md:min-w-30"
-          >
+          <button type="button" className="primary-button w-full md:min-w-30">
             Search
           </button>
         </div>

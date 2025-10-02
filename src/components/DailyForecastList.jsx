@@ -1,15 +1,13 @@
-import weatherData from "../weatherData";
 import PropTypes from "prop-types";
+import weatherUtils from "../utils/weatherUtils";
 
-const getWeekday = (date) =>
-  new Date(date).toLocaleDateString("en-US", { weekday: "short" });
 
 const DailyForecastItem = ({ date, tempMax, tempMin, weathercode }) => (
   <div className="dark:bg-Neutral-700 bg-white border-blue-300 border dark:border-Neutral-600 text-center w-full px-2 py-3 rounded-xl flex flex-col items-center justify-between">
-    <h3 className="mb-2">{getWeekday(date)}</h3>
+    <h3 className="mb-2">{weatherUtils.getWeekday(date)}</h3>
     <img
       className="w-12 h-12 mx-auto mb-2"
-      src={weatherData.getWeatherIcon(weathercode)}
+      src={weatherUtils.getWeatherIcon(weathercode)}
       alt="Weather icon"
     />
     <div className="flex justify-between items-center md:gap-x-2 gap-x-6">
@@ -19,17 +17,10 @@ const DailyForecastItem = ({ date, tempMax, tempMin, weathercode }) => (
   </div>
 );
 
-DailyForecastItem.propTypes = {
-  date: PropTypes.string.isRequired,
-  tempMax: PropTypes.number.isRequired,
-  tempMin: PropTypes.number.isRequired,
-  weathercode: PropTypes.number.isRequired,
-};
-
 const DailyForecastList = ({ data }) => (
-  <section className="w-full mx-auto">
-    <p className="font-semibold mt-8 py-4 text-xl">Daily forecast</p>
-    <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2 lg:gap-4">
+  <section className="w-full mx-auto p-4">
+    <p className="font-semibold py-4 text-xl">Daily forecast</p>
+    <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-4">
       {data.time.map((date, idx) => (
         <DailyForecastItem
           key={date}
@@ -42,6 +33,13 @@ const DailyForecastList = ({ data }) => (
     </div>
   </section>
 );
+
+DailyForecastItem.propTypes = {
+  date: PropTypes.string.isRequired,
+  tempMax: PropTypes.number.isRequired,
+  tempMin: PropTypes.number.isRequired,
+  weathercode: PropTypes.number.isRequired,
+};
 
 DailyForecastList.propTypes = {
   data: PropTypes.shape({

@@ -9,14 +9,8 @@ const WeatherStat = ({ label, value, unit }) => (
   </div>
 );
 
-WeatherStat.propTypes = {
-  label: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  unit: PropTypes.string,
-};
-
 const WeatherStats = ({ data, unit }) => (
-  <div className="grid grid-cols-2 sm:grid-cols-4 mt-6 gap-4">
+  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4">
     <WeatherStat
       label="Feels like"
       value={data.apparent_temperature}
@@ -39,6 +33,12 @@ const WeatherStats = ({ data, unit }) => (
     />
   </div>
 );
+
+WeatherStat.propTypes = {
+  label: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  unit: PropTypes.string,
+};
 
 WeatherStats.propTypes = {
   data: PropTypes.shape({
