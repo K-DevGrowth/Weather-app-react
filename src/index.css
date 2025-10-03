@@ -30,7 +30,7 @@
     }
 
     h1 {
-        @apply font-header max-w-4xl text-center font-bold leading-tight tracking-[-1%] sm:text-[64px] sm:leading-[76px]
+        @apply font-header max-w-3xl text-center font-bold leading-tight tracking-[-1%] sm:text-[64px] sm:leading-[76px]
     }
 }
 

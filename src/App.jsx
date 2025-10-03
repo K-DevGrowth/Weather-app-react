@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Search from "./components/Search";
 import CurrentWeatherCard from "./components/CurrentWeatherCard";
@@ -31,6 +31,26 @@ const App = () => {
     wind: "kmh",
     precipitation: "mm",
   });
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window !== "undefined") {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme) {
+        return savedTheme === "dark";
+      }
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [darkMode]);
 
   const {
     searchTerm,
@@ -40,7 +60,7 @@ const App = () => {
     isSearching,
   } = useLocationSearch();
 
-  const { country, isLocating, handleSelectLocation } =
+  const { country, isLocating, handleSelectLocation, requestLocation } =
     useCurrentLocation(DEFAULT_LOCATION);
 
   const { weather, isWeatherLoading, isWeatherError } = useWeather(
@@ -51,7 +71,12 @@ const App = () => {
 
   return (
     <main className="relative bg-blue-100 dark:bg-Neutral-900 dark:text-Neutral-0 w-screen h-dvh overflow-x-hidden">
-      <Navbar unit={unit} setUnit={setUnit} />
+      <Navbar
+        unit={unit}
+        setUnit={setUnit}
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
+      />
       <Search
         handleSelectLocation={handleSelectLocation}
         locationList={locationList}
@@ -59,6 +84,8 @@ const App = () => {
         isSearching={isSearching}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
+        requestLocation={requestLocation}
+        darkMode={darkMode}
       />
 
       {isLocating || isWeatherLoading ? (
@@ -67,7 +94,7 @@ const App = () => {
         <div className="text-center text-red-500">Error: {isWeatherError}</div>
       ) : (
         weather && (
-          <div className="grid lg:grid-cols-[2fr_1fr] gap-4">
+          <div className="grid lg:grid-cols-[2fr_1fr] gap-3 sm:p-3">
             <div>
               <CurrentWeatherCard country={country} data={weather.current} />
               <WeatherStats

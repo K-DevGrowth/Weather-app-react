@@ -35,16 +35,9 @@ SwitchUnitButton.propTypes = {
   handleSwitch: PropTypes.func.isRequired,
 };
 
-
-const Navbar = ({ unit, setUnit }) => {
+const Navbar = ({ unit, setUnit, darkMode, setDarkMode }) => {
   const [open, setOpen] = useState(false);
   const [system, setSystem] = useState("metric");
-  const [darkMode, setDarkMode] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("theme") === "dark" || window.matchMedia("(prefers-color-scheme: dark)").matches;
-    }
-    return false;
-  });
   const buttonRef = useRef(null);
   const menuRef = useRef(null);
 
@@ -58,15 +51,7 @@ const Navbar = ({ unit, setUnit }) => {
     setDarkMode((prev) => !prev);
   };
 
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [darkMode]);
+  
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -89,16 +74,23 @@ const Navbar = ({ unit, setUnit }) => {
 
   return (
     <header className="lg:px-10 p-4 flex items-center justify-between">
-      <img src="logo.svg" alt="Weather App Logo" className="h-8 w-auto brightness-0 dark:brightness-100" />
-      <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
+      <img
+        src="logo.svg"
+        alt="Weather App Logo"
+        className="h-8 w-auto brightness-0 dark:brightness-100"
+      />
+      <div className="flex flex-col sm:flex-row gap-4">
         <button
           type="button"
           aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
           onClick={handleToggleDarkMode}
-          className="inline-flex items-center secondary-button dark:text-Neutral-0 dark:bg-Neutral-800 dark:hover:bg-Neutral-700"
+          className="w-10 p-1 rounded-md bg-Neutral-0 dark:bg-Neutral-800 dark:hover:bg-Neutral-700"
         >
-          
-          <span>{darkMode ? "Dark" : "Light"} Mode</span>
+          {darkMode ? (
+            <img className="" src="icon-sun.svg" alt="Light Mode Icon" />
+          ) : (
+            <img className="" src="icon-moon.svg" alt="Dark Mode Icon" />
+          )}
         </button>
         <div className="relative inline-block">
           <button
@@ -110,9 +102,17 @@ const Navbar = ({ unit, setUnit }) => {
             onClick={() => setOpen((prev) => !prev)}
             className="inline-flex items-center gap-x-1.5 secondary-button dark:text-Neutral-0 dark:bg-Neutral-800 dark:hover:bg-Neutral-700"
           >
-            <img className="dark:brightness-100 brightness-0" src="icon-units.svg" alt="Units Icon" />
+            <img
+              className="dark:brightness-100 brightness-0"
+              src="icon-units.svg"
+              alt="Units Icon"
+            />
             <span>Units</span>
-            <img className="dark:brightness-100 brightness-0" src="icon-dropdown.svg" alt="Dropdown Arrow" />
+            <img
+              className="dark:brightness-100 brightness-0"
+              src="icon-dropdown.svg"
+              alt="Dropdown Arrow"
+            />
           </button>
           {open && (
             <div
