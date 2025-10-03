@@ -6,7 +6,6 @@ const API_REVERSE_GEOCODING_URL =
 const useCurrentLocation = (defaultLocation) => {
     const [country, setCountry] = useState(defaultLocation);
     const [isLocating, setIsLocating] = useState(true);
-    const [error, setError] = useState(null);
 
     const fetchLocationName = async (latitude, longitude) => {
 
@@ -28,7 +27,6 @@ const useCurrentLocation = (defaultLocation) => {
 
     const requestLocation = () => {
         setIsLocating(true);
-        setError(null);
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -41,22 +39,19 @@ const useCurrentLocation = (defaultLocation) => {
                 () => {
                     setCountry(defaultLocation);
                     setIsLocating(false);
-                    setError("Unable to retrieve your location");
                 }
             );
         } else {
             setCountry(defaultLocation);
             setIsLocating(false);
-            setError("Geolocation is not supported by this browser.");
         }
     };
-
 
     const handleSelectLocation = (location) => {
         setCountry(location);
     };
 
-    return { country, isCurrentLocationError: error, isLocating, handleSelectLocation, requestLocation }
+    return { country, isLocating, handleSelectLocation, requestLocation }
 };
 
 export default useCurrentLocation;

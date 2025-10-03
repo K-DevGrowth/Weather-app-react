@@ -72,7 +72,7 @@ const HourlyForecastList = ({ data }) => {
             className="primary-button inline-flex gap-x-2 dark:focus:ring-Neutral-200 dark:bg-Neutral-600 dark:hover:bg-Neutral-700"
           >
             <span>{selectedDay}</span>
-            <img src="/icon-dropdown.svg" alt="" />
+            <img className={`${open && 'rotate-180'} transition-transform`} src="/icon-dropdown.svg" alt="" />
           </button>
           {open && (
             <div

@@ -20,7 +20,7 @@ const SwitchUnitButton = ({ system, handleSwitch }) => {
     <button
       type="button"
       onClick={handleSwitch}
-      className="dark:hover:bg-Neutral-700 dark:focus:bg-Neutral-700 hover:bg-blue-50 focus:bg-blue-50 p-2 rounded-md text-left w-full cursor-pointer focus:outline-none focus:ring-1 focus:ring-blue-300"
+      className="dark:hover:bg-Neutral-700 dark:focus:ring-Neutral-600 dark:focus:bg-Neutral-700 hover:bg-blue-50 focus:bg-blue-50 p-2 rounded-md text-left w-full cursor-pointer focus:outline-none focus:ring-1 focus:ring-blue-300"
       aria-label={`Switch to ${
         system === "imperial" ? "Metric" : "Imperial"
       } units`}
@@ -35,7 +35,7 @@ SwitchUnitButton.propTypes = {
   handleSwitch: PropTypes.func.isRequired,
 };
 
-const Navbar = ({ unit, setUnit, darkMode, setDarkMode }) => {
+const Navbar = ({ unit, setUnit, darkMode, handleToggleDarkMode }) => {
   const [open, setOpen] = useState(false);
   const [system, setSystem] = useState("metric");
   const buttonRef = useRef(null);
@@ -46,12 +46,6 @@ const Navbar = ({ unit, setUnit, darkMode, setDarkMode }) => {
     setSystem(nextSystem);
     setUnit(UNIT_SYSTEMS[nextSystem]);
   };
-
-  const handleToggleDarkMode = () => {
-    setDarkMode((prev) => !prev);
-  };
-
-  
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -73,18 +67,18 @@ const Navbar = ({ unit, setUnit, darkMode, setDarkMode }) => {
   }, [open]);
 
   return (
-    <header className="lg:px-10 p-4 flex items-center justify-between">
+    <header className="lg:px-10 p-4 flex sm:items-center justify-between">
       <img
         src="logo.svg"
         alt="Weather App Logo"
         className="h-8 w-auto brightness-0 dark:brightness-100"
       />
-      <div className="flex flex-col sm:flex-row gap-4">
+      <div className="flex flex-col-reverse sm:flex-row gap-4">
         <button
           type="button"
           aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
           onClick={handleToggleDarkMode}
-          className="w-10 p-1 rounded-md bg-Neutral-0 dark:bg-Neutral-800 dark:hover:bg-Neutral-700"
+          className="w-10 sm:self-auto p-1 self-end rounded-md bg-Neutral-0 dark:bg-Neutral-800 dark:hover:bg-Neutral-700"
         >
           {darkMode ? (
             <img className="" src="icon-sun.svg" alt="Light Mode Icon" />
@@ -109,7 +103,7 @@ const Navbar = ({ unit, setUnit, darkMode, setDarkMode }) => {
             />
             <span>Units</span>
             <img
-              className="dark:brightness-100 brightness-0"
+              className={`dark:brightness-100 brightness-0 ${open ? 'rotate-180' : ''} transition-transform`}
               src="icon-dropdown.svg"
               alt="Dropdown Arrow"
             />

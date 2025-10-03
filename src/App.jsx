@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Navbar from "./components/Navbar";
 import Search from "./components/Search";
 import CurrentWeatherCard from "./components/CurrentWeatherCard";
@@ -10,13 +10,9 @@ import LoadingSkeleton from "./components/LoadingSkeleton";
 import useWeather from "./hooks/useWeather";
 import useCurrentLocation from "./hooks/useCurrentLocation";
 import useLocationSearch from "./hooks/useLocationSearch";
-
-// const API_OPTIONS = {
-//   method: "GET",
-//   headers: {
-//     accept: "application/json",
-//   },
-// };
+import useDarkMode from "./hooks/useDarkMode";
+import FavouriteWeather from "./components/FavouriteWeather";
+import CompareWeather from "./components/CompareWeather";
 
 const DEFAULT_LOCATION = {
   name: "Ho Chi Minh City",
@@ -26,31 +22,13 @@ const DEFAULT_LOCATION = {
 };
 
 const App = () => {
+  const [favourite, setFavourite] = useState([]);
+  const [compareWeather, setCompareWeather] = useState([]);
   const [unit, setUnit] = useState({
     temp: "celsius",
     wind: "kmh",
     precipitation: "mm",
   });
-  const [darkMode, setDarkMode] = useState(() => {
-    if (typeof window !== "undefined") {
-      const savedTheme = localStorage.getItem("theme");
-      if (savedTheme) {
-        return savedTheme === "dark";
-      }
-      return window.matchMedia("(prefers-color-scheme: dark)").matches;
-    }
-    return false;
-  });
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [darkMode]);
 
   const {
     searchTerm,
@@ -60,13 +38,8 @@ const App = () => {
     isSearching,
   } = useLocationSearch();
 
-  const {
-    country,
-    isCurrentLocationError,
-    isLocating,
-    handleSelectLocation,
-    requestLocation,
-  } = useCurrentLocation(DEFAULT_LOCATION);
+  const { country, isLocating, handleSelectLocation, requestLocation } =
+    useCurrentLocation(DEFAULT_LOCATION);
 
   const { weather, isWeatherLoading, isWeatherError } = useWeather(
     country?.latitude,
@@ -74,13 +47,15 @@ const App = () => {
     unit
   );
 
+  const { darkMode, handleToggleDarkMode } = useDarkMode();
+
   return (
     <main className="relative bg-blue-100 dark:bg-Neutral-900 dark:text-Neutral-0 w-screen h-dvh overflow-x-hidden">
       <Navbar
         unit={unit}
         setUnit={setUnit}
         darkMode={darkMode}
-        setDarkMode={setDarkMode}
+        handleToggleDarkMode={handleToggleDarkMode}
       />
       <Search
         handleSelectLocation={handleSelectLocation}
@@ -92,29 +67,43 @@ const App = () => {
         requestLocation={requestLocation}
         darkMode={darkMode}
       />
+      <div className="grid lg:grid-cols-[0.75fr_2fr_1fr] gap-2 sm:p-3">
+        {isWeatherError && (
+          <div className="text-center text-2xl">{isWeatherError}</div>
+        )}
 
-      {isWeatherError && (
-        <div className="text-center text-2xl">{isWeatherError}</div>
-      )}
+        {isLocating || (isWeatherLoading && <LoadingSkeleton />)}
 
-      {isCurrentLocationError && (
-        <div className="text-center text-2xl">{isCurrentLocationError}</div>
-      )}
-
-      {isLocating || (isWeatherLoading && <LoadingSkeleton />)}
-      
-      {weather && (
-        <div className="grid lg:grid-cols-[2fr_1fr] gap-3 sm:p-3">
-          <div>
-            <CurrentWeatherCard country={country} data={weather.current} />
-            <WeatherStats data={weather.current} unit={weather.current_units} />
-            <DailyForecastList data={weather.daily} />
-          </div>
-          <div className="p-4 sm:p-0">
-            <HourlyForecastList data={weather.hourly} />
-          </div>
-        </div>
-      )}
+        {weather && (
+          <>
+            <div>
+              <FavouriteWeather
+                handleSelectLocation={handleSelectLocation}
+                favourite={favourite}
+              />
+            </div>
+            <div>
+              <CurrentWeatherCard
+                compareWeather={compareWeather}
+                setCompareWeather={setCompareWeather}
+                favourite={favourite}
+                setFavourite={setFavourite}
+                country={country}
+                weather={weather.current}
+              />
+              <WeatherStats
+                weather={weather.current}
+                unit={weather.current_units}
+              />
+              <DailyForecastList data={weather.daily} />
+            </div>
+            <div className="p-4 sm:p-0">
+              <HourlyForecastList data={weather.hourly} />
+            </div>
+          </>
+        )}
+      </div>
+      <CompareWeather compareWeather={compareWeather} />
     </main>
   );
 };

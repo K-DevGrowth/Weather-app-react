@@ -50,7 +50,7 @@ const Search = ({
             </div>
             <button
               type="button"
-              className="absolute right-0 w-10 h-10 mx-auto rounded-md hover:bg-blue-100 active:bg-blue-300 dark:hover:bg-Neutral-700 dark:active:bg-Neutral-600"
+              className="absolute right-1 p-1 w-10 h-10 mx-auto rounded-md hover:bg-blue-100 active:bg-blue-300 dark:hover:bg-Neutral-700 dark:active:bg-Neutral-600"
               onClick={requestLocation}
             >
               {darkMode ? (

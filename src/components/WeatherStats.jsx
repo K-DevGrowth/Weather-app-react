@@ -9,26 +9,26 @@ const WeatherStat = ({ label, value, unit }) => (
   </div>
 );
 
-const WeatherStats = ({ data, unit }) => (
+const WeatherStats = ({ weather, unit }) => (
   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4">
     <WeatherStat
       label="Feels like"
-      value={data.apparent_temperature}
+      value={weather.apparent_temperature}
       unit={unit.apparent_temperature}
     />
     <WeatherStat
       label="Humidity"
-      value={data.relative_humidity_2m}
+      value={weather.relative_humidity_2m}
       unit={unit.relative_humidity_2m}
     />
     <WeatherStat
       label="Wind"
-      value={data.wind_speed_10m}
+      value={weather.wind_speed_10m}
       unit={unit.wind_speed_10m}
     />
     <WeatherStat
       label="Precipitation"
-      value={data.precipitation}
+      value={weather.precipitation}
       unit={unit.precipitation}
     />
   </div>
@@ -41,7 +41,7 @@ WeatherStat.propTypes = {
 };
 
 WeatherStats.propTypes = {
-  data: PropTypes.shape({
+  weather: PropTypes.shape({
     apparent_temperature: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,

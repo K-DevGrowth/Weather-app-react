@@ -1,7 +1,11 @@
 const LoadingSkeleton = () => {
   return (
-    <div className="animate-pulse grid lg:grid-cols-[2fr_1fr] gap-4">
-      <div >
+    <>
+      <div className="animate-pulse">
+        <section className="p-4 border dark:bg-Neutral-800 dark:border-Neutral-600 rounded-xl"></section>
+      </div>
+
+      <div className="animate-pulse">
         <section className="h-60 bg-Neutral-800 flex flex-col items-center justify-center rounded-xl shadow-sm">
           <div className="w-30 h-10 overflow-hidden">
             <img
@@ -42,7 +46,7 @@ const LoadingSkeleton = () => {
         </section>
       </div>
 
-      <section className="p-4 rounded-xl w-full max-w-md bg-Neutral-800 mx-auto shadow-sm">
+      <div className="p-4 animate-pulse rounded-xl w-full max-w-md bg-Neutral-800 mx-auto shadow-sm">
         <div className="flex justify-between items-center">
           <p className="font-semibold">Hourly forecast</p>
           <div className="relative">
@@ -71,8 +75,8 @@ const LoadingSkeleton = () => {
               </div>
             ))}
         </div>
-      </section>
-    </div>
+      </div>
+    </>
   );
 };
 
