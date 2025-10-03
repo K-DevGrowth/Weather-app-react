@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const API_REVERSE_GEOCODING_URL =
     "https://api.bigdatacloud.net/data/reverse-geocode-client";
@@ -6,8 +6,10 @@ const API_REVERSE_GEOCODING_URL =
 const useCurrentLocation = (defaultLocation) => {
     const [country, setCountry] = useState(defaultLocation);
     const [isLocating, setIsLocating] = useState(true);
+    const [error, setError] = useState(null);
 
     const fetchLocationName = async (latitude, longitude) => {
+
         try {
             const res = await fetch(
                 `${API_REVERSE_GEOCODING_URL}?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
@@ -26,6 +28,7 @@ const useCurrentLocation = (defaultLocation) => {
 
     const requestLocation = () => {
         setIsLocating(true);
+        setError(null);
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -38,11 +41,13 @@ const useCurrentLocation = (defaultLocation) => {
                 () => {
                     setCountry(defaultLocation);
                     setIsLocating(false);
+                    setError("Unable to retrieve your location");
                 }
             );
         } else {
             setCountry(defaultLocation);
             setIsLocating(false);
+            setError("Geolocation is not supported by this browser.");
         }
     };
 
@@ -51,7 +56,7 @@ const useCurrentLocation = (defaultLocation) => {
         setCountry(location);
     };
 
-    return { country, isLocating, handleSelectLocation, requestLocation }
+    return { country, isCurrentLocationError: error, isLocating, handleSelectLocation, requestLocation }
 };
 
 export default useCurrentLocation;

@@ -60,8 +60,13 @@ const App = () => {
     isSearching,
   } = useLocationSearch();
 
-  const { country, isLocating, handleSelectLocation, requestLocation } =
-    useCurrentLocation(DEFAULT_LOCATION);
+  const {
+    country,
+    isCurrentLocationError,
+    isLocating,
+    handleSelectLocation,
+    requestLocation,
+  } = useCurrentLocation(DEFAULT_LOCATION);
 
   const { weather, isWeatherLoading, isWeatherError } = useWeather(
     country?.latitude,
@@ -88,26 +93,27 @@ const App = () => {
         darkMode={darkMode}
       />
 
-      {isLocating || isWeatherLoading ? (
-        <LoadingSkeleton />
-      ) : isWeatherError ? (
-        <div className="text-center text-red-500">Error: {isWeatherError}</div>
-      ) : (
-        weather && (
-          <div className="grid lg:grid-cols-[2fr_1fr] gap-3 sm:p-3">
-            <div>
-              <CurrentWeatherCard country={country} data={weather.current} />
-              <WeatherStats
-                data={weather.current}
-                unit={weather.current_units}
-              />
-              <DailyForecastList data={weather.daily} />
-            </div>
-            <div className="p-4 sm:p-0">
-              <HourlyForecastList data={weather.hourly} />
-            </div>
+      {isWeatherError && (
+        <div className="text-center text-2xl">{isWeatherError}</div>
+      )}
+
+      {isCurrentLocationError && (
+        <div className="text-center text-2xl">{isCurrentLocationError}</div>
+      )}
+
+      {isLocating || (isWeatherLoading && <LoadingSkeleton />)}
+      
+      {weather && (
+        <div className="grid lg:grid-cols-[2fr_1fr] gap-3 sm:p-3">
+          <div>
+            <CurrentWeatherCard country={country} data={weather.current} />
+            <WeatherStats data={weather.current} unit={weather.current_units} />
+            <DailyForecastList data={weather.daily} />
           </div>
-        )
+          <div className="p-4 sm:p-0">
+            <HourlyForecastList data={weather.hourly} />
+          </div>
+        </div>
       )}
     </main>
   );

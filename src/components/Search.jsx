@@ -43,14 +43,14 @@ const Search = ({
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onFocus={() => setShowDropdown(true)}
-                className="cursor-pointer text-Neutral-200 placeholder-Neutral-200 outline-none py-2 bg-transparent"
+                className="w-full cursor-pointer text-Neutral-200 placeholder-Neutral-200 outline-none py-2 bg-transparent"
                 type="text"
                 placeholder="Search for a place..."
               />
             </div>
             <button
               type="button"
-              className="w-10 h-10 p-1 rounded-md hover:bg-blue-100 active:bg-blue-300 dark:hover:bg-Neutral-700 dark:active:bg-Neutral-600"
+              className="absolute right-0 w-10 h-10 mx-auto rounded-md hover:bg-blue-100 active:bg-blue-300 dark:hover:bg-Neutral-700 dark:active:bg-Neutral-600"
               onClick={requestLocation}
             >
               {darkMode ? (
