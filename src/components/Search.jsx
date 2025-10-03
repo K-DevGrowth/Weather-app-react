@@ -35,7 +35,7 @@ const Search = ({
         <div className="flex flex-col sm:flex-row items-center justify-center p-4 gap-x-2 md:min-w-[450px] md:w-full w-screen">
           <div
             ref={inputRef}
-            className="flex flex-row relative dark:bg-Neutral-800 bg-Neutral-0 px-3 py-1 gap-3 rounded-md w-full lg:min-w-xl min-w-[450px] cursor-pointer focus-within:ring-1 focus-within:ring-Neutral-200"
+            className="flex flex-row relative dark:bg-Neutral-800 bg-Neutral-0 px-3 py-1 gap-3 rounded-md w-full md:min-w-xl sm:min-w-md cursor-pointer focus-within:ring-1 focus-within:ring-Neutral-200"
           >
             <div className="flex flex-row flex-1 items-center gap-3">
               <img className="p-1" src="icon-search.svg" alt="" />
