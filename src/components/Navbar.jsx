@@ -78,12 +78,12 @@ const Navbar = ({ unit, setUnit, darkMode, handleToggleDarkMode }) => {
           type="button"
           aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
           onClick={handleToggleDarkMode}
-          className="w-10 sm:self-auto p-1 self-end rounded-md bg-Neutral-0 dark:bg-Neutral-800 dark:hover:bg-Neutral-700"
+          className="sm:self-auto w-10 p-2 self-end rounded-md bg-Neutral-0 dark:bg-Neutral-800 dark:hover:bg-Neutral-700"
         >
           {darkMode ? (
-            <img className="" src="icon-sun.svg" alt="Light Mode Icon" />
+            <i className="fa-solid fa-cloud-sun fa-lg brightness-0 dark:brightness-100"></i>
           ) : (
-            <img className="" src="icon-moon.svg" alt="Dark Mode Icon" />
+            <i className="fa-solid fa-moon fa-lg brightness-0 dark:brightness-100"></i>
           )}
         </button>
         <div className="relative inline-block">
@@ -103,7 +103,9 @@ const Navbar = ({ unit, setUnit, darkMode, handleToggleDarkMode }) => {
             />
             <span>Units</span>
             <img
-              className={`dark:brightness-100 brightness-0 ${open ? 'rotate-180' : ''} transition-transform`}
+              className={`dark:brightness-100 brightness-0 ${
+                open ? "rotate-180" : ""
+              } transition-transform`}
               src="icon-dropdown.svg"
               alt="Dropdown Arrow"
             />

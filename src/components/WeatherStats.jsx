@@ -2,37 +2,45 @@ import PropTypes from "prop-types";
 
 const WeatherStat = ({ label, value, unit }) => (
   <div className="dark:bg-Neutral-700 bg-white w-full border-blue-300 border dark:border-Neutral-600 px-4 py-3 rounded-xl flex flex-col items-center justify-center min-w-0">
-    <p className="dark:text-Neutral-200 text-gray-700 text-md mb-1">{label}</p>
+    <p className="dark:text-Neutral-200 text-gray-700 mb-1">{label}</p>
     <p className="text-2xl mt-2 font-medium">
       {value} {unit}
     </p>
   </div>
 );
 
-const WeatherStats = ({ weather, unit }) => (
-  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4">
-    <WeatherStat
-      label="Feels like"
-      value={weather.apparent_temperature}
-      unit={unit.apparent_temperature}
-    />
-    <WeatherStat
-      label="Humidity"
-      value={weather.relative_humidity_2m}
-      unit={unit.relative_humidity_2m}
-    />
-    <WeatherStat
-      label="Wind"
-      value={weather.wind_speed_10m}
-      unit={unit.wind_speed_10m}
-    />
-    <WeatherStat
-      label="Precipitation"
-      value={weather.precipitation}
-      unit={unit.precipitation}
-    />
-  </div>
-);
+const WeatherStats = ({ weather, unit }) => {
+  return (
+    <div>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4">
+        <WeatherStat
+          label="Feels like"
+          value={weather.apparent_temperature}
+          unit={unit.apparent_temperature}
+        />
+        <WeatherStat
+          label="Humidity"
+          value={weather.relative_humidity_2m}
+          unit={unit.relative_humidity_2m}
+        />
+        <WeatherStat
+          label="Wind"
+          value={weather.wind_speed_10m}
+          unit={unit.wind_speed_10m}
+        />
+        <WeatherStat
+          label="Precipitation"
+          value={weather.precipitation}
+          unit={unit.precipitation}
+        />
+      </div>
+      <div className="flex gap-x-4 justify-center items-center">
+        <p>1</p>
+        <p>2</p>
+      </div>
+    </div>
+  );
+};
 
 WeatherStat.propTypes = {
   label: PropTypes.string.isRequired,

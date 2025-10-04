@@ -58,9 +58,9 @@ const HourlyForecastList = ({ data }) => {
     .map((item) => item.idx);
 
   return (
-    <section className="dark:bg-Neutral-800 bg-white border-blue-300 border dark:border-Neutral-600 p-4 rounded-xl w-full mx-auto">
+    <section className="dark:bg-Neutral-800 m-4 sm:m-0 bg-white border-blue-300 border dark:border-Neutral-600 p-4 rounded-xl w-full mx-auto">
       <div className="flex justify-between items-center">
-        <h3 className="font-semibold">Hourly forecast</h3>
+        <h2>Hourly forecast</h2>
         <div className="relative">
           <button
             ref={buttonRef}

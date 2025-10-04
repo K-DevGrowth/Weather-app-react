@@ -6,8 +6,8 @@ const CurrentWeatherCard = ({
   favourite,
   weather,
   country,
-  compareWeather,
   setCompareWeather,
+  unit,
 }) => {
   const date = new Date();
   const formattedDate = date.toLocaleDateString("en-US", {
@@ -16,6 +16,46 @@ const CurrentWeatherCard = ({
     day: "numeric",
     year: "numeric",
   });
+
+  const handleAddToCompare = () => {
+    setCompareWeather((prev) => {
+      const exists = prev.some((item) => item.name === country.name);
+      if (exists || prev.length >= 2) return prev;
+
+      if (prev.length > 0) {
+        const firstUnit = prev[0].unit;
+        const sameUnit =
+          firstUnit.temperature_2m === unit.temperature_2m &&
+          firstUnit.precipitation === unit.precipitation &&
+          firstUnit.wind_speed_10m === unit.wind_speed_10m;
+
+        if (!sameUnit) {
+          return prev;
+        }
+      }
+
+      return [
+        ...prev,
+        {
+          name: country.name,
+          countryName: country.country,
+          weather,
+          unit: unit,
+        },
+      ];
+    });
+  };
+
+  const handleAddFavourite = () => {
+    setFavourite((prev) => {
+      const exits = prev.some((item) => item.name === country.name);
+      if (exits) return prev;
+      return [...prev, country];
+    });
+  };
+
+  const handleDeleteFavourite = () =>
+    setFavourite((prev) => prev.filter((item) => item.name !== country.name));
 
   return (
     <section className="relative sm:text-left text-center px-4 text-Neutral-0">
@@ -29,54 +69,29 @@ const CurrentWeatherCard = ({
         src="bg-today-small.svg"
         alt=""
       />
-      <button className="absolute top-1 right-5 p-4 z-20 hover:scale-120 transition-transform cursor-pointer">
-        {favourite.includes(country) ? (
+      <button className="absolute top-1 right-5 p-4 z-20 hover:scale-125 transition-transform cursor-pointer">
+        {favourite.some((item) => item.name === country.name) ? (
           <i
-            onClick={() =>
-              setFavourite((prev) =>
-                prev.filter((item) => item.name !== country.name)
-              )
-            }
+            onClick={handleDeleteFavourite}
             className="fa-solid fa-star fa-xl text-yellow-400"
           ></i>
         ) : (
           <i
-            onClick={() => {
-              setFavourite((prev) => {
-                const exits = prev.some((item) => item.name === country.name);
-                if (exits) return prev;
-                return [...favourite, country];
-              });
-            }}
+            onClick={handleAddFavourite}
             className="fa-regular fa-star fa-xl"
           ></i>
         )}
       </button>
       <button
         type="button"
-        className="absolute right-5 bottom-1 p-4 z-20 cursor-pointer"
-        onClick={(prev) => {
-          const exits = compareWeather.some(
-            (item) => item.name === country.name
-          );
-          if (exits || compareWeather.length >= 2) {
-            return prev;
-          }
-          return setCompareWeather([
-            ...compareWeather,
-            {
-              name: country.name,
-              countryName: country.country,
-              weather: weather,
-            },
-          ]);
-        }}
+        className="absolute group right-5 bottom-1 p-4 z-20 hover:scale-125 transition-transform cursor-pointer"
+        onClick={handleAddToCompare}
       >
-        Add
+        <i className="fa-solid fa-plus fa-xl"></i>
       </button>
       <div className="absolute inset-0 p-8 flex sm:flex-row flex-col justify-between items-center gap-4">
         <div>
-          <h2 className="font-bold text-2xl">
+          <h2 className="text-2xl">
             {country.name}, {country.country}
           </h2>
           <p>{formattedDate}</p>

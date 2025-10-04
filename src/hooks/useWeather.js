@@ -3,7 +3,10 @@ import { useEffect, useState } from "react";
 const API_WEATHER_URL = "https://api.open-meteo.com/v1/forecast";
 
 const useWeather = (latitude, longitude, unit) => {
-  const [weather, setWeather] = useState(null);
+  const [weather, setWeather] = useState(() => {
+    const saved = localStorage.getItem("weather");
+    return saved ? JSON.parse(saved) : null
+  });
   const [isWeatherLoading, setIsWeatherLoading] = useState(false);
   const [isWeatherError, setIsWeatherError] = useState(null);
 
@@ -22,6 +25,7 @@ const useWeather = (latitude, longitude, unit) => {
 
         const data = await res.json();
         setWeather(data);
+        localStorage.setItem("weather", JSON.stringify(data));
       } catch (err) {
         setIsWeatherError(err.message);
       } finally {

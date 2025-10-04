@@ -14,21 +14,62 @@ import useDarkMode from "./hooks/useDarkMode";
 import FavouriteWeather from "./components/FavouriteWeather";
 import CompareWeather from "./components/CompareWeather";
 
-const DEFAULT_LOCATION = {
+const defalutLocation = {
   name: "Ho Chi Minh City",
   country: "Vietnam",
   latitude: 10.8231,
   longitude: 106.6297,
 };
 
+const defaultFavourite = [
+  {
+    name: "Ho Chi Minh City",
+    country: "Vietnam",
+    latitude: 10.8231,
+    longitude: 106.6297,
+  },
+];
+
+const defaultCompare = [
+  {
+    name: "Ho Chi Minh City",
+    countryName: "Vietnam",
+    weather: {
+      temperature_2m: 32,
+      apparent_temperature: 35,
+      relative_humidity_2m: 70,
+      wind_speed_10m: 10,
+      precipitation: 0,
+    },
+    unit: {
+      temperature_2m: "°C",
+      apparent_temperature: "°C",
+      relative_humidity_2m: "%",
+      wind_speed_10m: "km/h",
+      precipitation: "mm",
+    },
+  },
+];
+
 const App = () => {
-  const [favourite, setFavourite] = useState([]);
-  const [compareWeather, setCompareWeather] = useState([]);
+  const [favourite, setFavourite] = useState(() => {
+    const saved = localStorage.getItem("favourite");
+    return saved ? JSON.parse(saved) : defaultFavourite;
+  });
+  const [compareWeather, setCompareWeather] = useState(() => {
+    const saved = localStorage.getItem("compareWeather");
+    return saved ? JSON.parse(saved) : defaultCompare;
+  });
   const [unit, setUnit] = useState({
     temp: "celsius",
     wind: "kmh",
     precipitation: "mm",
   });
+
+  const savedLocation = localStorage.getItem("selectedLocation");
+  const initialLocation = savedLocation
+    ? JSON.parse(savedLocation)
+    : defalutLocation;
 
   const {
     searchTerm,
@@ -39,7 +80,7 @@ const App = () => {
   } = useLocationSearch();
 
   const { country, isLocating, handleSelectLocation, requestLocation } =
-    useCurrentLocation(DEFAULT_LOCATION);
+    useCurrentLocation(initialLocation);
 
   const { weather, isWeatherLoading, isWeatherError } = useWeather(
     country?.latitude,
@@ -65,9 +106,8 @@ const App = () => {
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         requestLocation={requestLocation}
-        darkMode={darkMode}
       />
-      <div className="grid lg:grid-cols-[0.75fr_2fr_1fr] gap-2 sm:p-3">
+      <div className="grid lg:grid-cols-[0.7fr_2fr_1fr] gap-1 sm:p-3">
         {isWeatherError && (
           <div className="text-center text-2xl">{isWeatherError}</div>
         )}
@@ -80,16 +120,17 @@ const App = () => {
               <FavouriteWeather
                 handleSelectLocation={handleSelectLocation}
                 favourite={favourite}
+                country={country}
               />
             </div>
             <div>
               <CurrentWeatherCard
-                compareWeather={compareWeather}
                 setCompareWeather={setCompareWeather}
                 favourite={favourite}
                 setFavourite={setFavourite}
                 country={country}
                 weather={weather.current}
+                unit={weather?.current_units}
               />
               <WeatherStats
                 weather={weather.current}
@@ -97,13 +138,16 @@ const App = () => {
               />
               <DailyForecastList data={weather.daily} />
             </div>
-            <div className="p-4 sm:p-0">
+            <div>
               <HourlyForecastList data={weather.hourly} />
             </div>
           </>
         )}
       </div>
-      <CompareWeather compareWeather={compareWeather} />
+      <CompareWeather
+        compareWeather={compareWeather}
+        setCompareWeather={setCompareWeather}
+      />
     </main>
   );
 };

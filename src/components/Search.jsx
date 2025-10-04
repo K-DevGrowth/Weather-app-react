@@ -8,7 +8,6 @@ const Search = ({
   searchTerm,
   setSearchTerm,
   requestLocation,
-  darkMode,
 }) => {
   const inputRef = useRef(null);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -50,14 +49,10 @@ const Search = ({
             </div>
             <button
               type="button"
-              className="absolute right-1 p-1 w-10 h-10 mx-auto rounded-md hover:bg-blue-100 active:bg-blue-300 dark:hover:bg-Neutral-700 dark:active:bg-Neutral-600"
+              className="absolute right-0 top-0 p-3 rounded-md hover:bg-blue-100 active:bg-blue-300 dark:hover:bg-Neutral-700 dark:active:bg-Neutral-600"
               onClick={requestLocation}
             >
-              {darkMode ? (
-                <img src="icon-location-light.svg" alt="" />
-              ) : (
-                <img src="icon-location-dark.svg" alt="" />
-              )}
+              <i className="fa-solid fa-location-dot fa-lg brightness-0 dark:brightness-100"></i>
             </button>
 
             {showDropdown && searchTerm.trim() !== "" && (

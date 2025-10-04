@@ -35,12 +35,14 @@ const useCurrentLocation = (defaultLocation) => {
                     const locationName = await fetchLocationName(latitude, longitude);
                     setCountry(locationName);
                     setIsLocating(false);
+                    localStorage.setItem("selectedLocation", JSON.stringify(locationName))
                 },
                 () => {
                     setCountry(defaultLocation);
                     setIsLocating(false);
                 }
             );
+
         } else {
             setCountry(defaultLocation);
             setIsLocating(false);
@@ -49,6 +51,7 @@ const useCurrentLocation = (defaultLocation) => {
 
     const handleSelectLocation = (location) => {
         setCountry(location);
+        localStorage.setItem("selectedLocation", JSON.stringify(location));
     };
 
     return { country, isLocating, handleSelectLocation, requestLocation }

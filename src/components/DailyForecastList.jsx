@@ -10,7 +10,7 @@ const DailyForecastItem = ({ date, tempMax, tempMin, weathercode }) => (
       src={weatherUtils.getWeatherIcon(weathercode)}
       alt="Weather icon"
     />
-    <div className="flex justify-between items-center md:gap-x-2 gap-x-6">
+    <div className="flex justify-between items-center lg:text-sm md:gap-x-2 gap-x-6">
       <p>{tempMax}&deg;</p>
       <p>{tempMin}&deg;</p>
     </div>
@@ -19,7 +19,7 @@ const DailyForecastItem = ({ date, tempMax, tempMin, weathercode }) => (
 
 const DailyForecastList = ({ data }) => (
   <section className="w-full mx-auto p-4">
-    <p className="font-semibold py-4 text-xl">Daily forecast</p>
+    <h2 className="py-4">Daily forecast</h2>
     <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-4">
       {data.time.map((date, idx) => (
         <DailyForecastItem

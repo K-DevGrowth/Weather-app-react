@@ -32,6 +32,10 @@
     h1 {
         @apply font-header max-w-3xl text-center font-bold leading-tight tracking-[-1%] sm:text-[64px] sm:leading-[76px]
     }
+
+    h2 {
+        @apply text-xl font-semibold
+    }
 }
 
 @utility primary-button {
