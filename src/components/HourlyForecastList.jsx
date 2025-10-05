@@ -60,7 +60,7 @@ const HourlyForecastList = ({ weather }) => {
   return (
     <section className="card dark:bg-Neutral-800 dark:border-Neutral-600 p-4 rounded-xl w-full mx-auto">
       <div className="flex justify-between items-center">
-        <h2>Hourly forecast</h2>
+        <h2>Hourly Forecast</h2>
         <div className="relative">
           <button
             ref={buttonRef}

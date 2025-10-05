@@ -39,13 +39,13 @@ Users should be able to:
 
 ### Screenshot
 
-![](<./public/Screenshot%20(31).png>)
-![](<./public/Screenshot%20(32).png>)
+![](<./public/Screenshot%20(33).png>)
+![](<./public/Screenshot%20(34).png>)
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Live Site URL: [Add live site URL here](https://github.com/K-DevGrowth/Weather-app-react.git)
+- Solution URL: [Add solution URL here](https://weather-app-kdev.netlify.app/)
 
 ## My process
 
