@@ -8,14 +8,13 @@ import DailyForecastList from "./components/DailyForecastList";
 import FavouriteWeather from "./components/FavouriteWeather";
 import CompareWeather from "./components/CompareWeather";
 import LoadingSkeleton from "./components/LoadingSkeleton";
-
 import useWeather from "./hooks/useWeather";
 import useCurrentLocation from "./hooks/useCurrentLocation";
 import useLocationSearch from "./hooks/useLocationSearch";
 import useDarkMode from "./hooks/useDarkMode";
 import ErrorPage from "./components/ErrorPage";
 
-const defalutLocation = {
+const defaultLocation = {
   name: "Ho Chi Minh City",
   country: "Vietnam",
   latitude: 10.8231,
@@ -27,10 +26,12 @@ const App = () => {
     const saved = localStorage.getItem("favouriteWeather");
     return saved ? JSON.parse(saved) : [];
   });
+
   const [compareWeather, setCompareWeather] = useState(() => {
     const saved = localStorage.getItem("compareWeather");
     return saved ? JSON.parse(saved) : [];
   });
+
   const [unit, setUnit] = useState({
     temp: "celsius",
     wind: "kmh",
@@ -40,7 +41,7 @@ const App = () => {
   const savedLocation = localStorage.getItem("selectedLocation");
   const initialLocation = savedLocation
     ? JSON.parse(savedLocation)
-    : defalutLocation;
+    : defaultLocation;
 
   const {
     searchTerm,
@@ -69,6 +70,7 @@ const App = () => {
         darkMode={darkMode}
         handleToggleDarkMode={handleToggleDarkMode}
       />
+
       {isWeatherError ? (
         <ErrorPage />
       ) : (
@@ -82,44 +84,44 @@ const App = () => {
             setSearchTerm={setSearchTerm}
             requestLocation={requestLocation}
           />
-
-          {isLocating || (isWeatherLoading && <LoadingSkeleton />)}
-
-          {weather && (
-            <>
-              <div className="grid lg:grid-cols-[0.7fr_2fr_1fr] gap-1 sm:p-3">
-                <div className="md:p-4 lg:p-0">
-                  <FavouriteWeather
-                    handleSelectLocation={handleSelectLocation}
-                    favourites={favourites}
-                    country={country}
-                  />
+          {isWeatherLoading ? (
+            <LoadingSkeleton />
+          ) : (
+            weather && (
+              <>
+                <div className="grid lg:grid-cols-[0.7fr_2fr_1fr] gap-3 sm:p-3">
+                  <div className="md:p-4 lg:p-0">
+                    <FavouriteWeather
+                      handleSelectLocation={handleSelectLocation}
+                      favourites={favourites}
+                      country={country}
+                    />
+                  </div>
+                  <div>
+                    <CurrentWeatherCard
+                      setCompareWeather={setCompareWeather}
+                      favourites={favourites}
+                      setFavourites={setFavourites}
+                      country={country}
+                      weather={weather.current}
+                      unit={weather?.current_units}
+                    />
+                    <WeatherStats
+                      weather={weather.current}
+                      unit={weather.current_units}
+                    />
+                    <DailyForecastList weather={weather.daily} />
+                  </div>
+                  <div className="p-4 lg:p-0">
+                    <HourlyForecastList weather={weather.hourly} />
+                  </div>
                 </div>
-                <div>
-                  <CurrentWeatherCard
-                    setCompareWeather={setCompareWeather}
-                    favourites={favourites}
-                    setFavourites={setFavourites}
-                    country={country}
-                    weather={weather.current}
-                    unit={weather?.current_units}
-                  />
-                  <WeatherStats
-                    weather={weather.current}
-                    unit={weather.current_units}
-                  />
-                  <DailyForecastList weather={weather.daily} />
-                </div>
-                <div className="p-4 lg:p-0">
-                  <HourlyForecastList weather={weather.hourly} />
-                </div>
-              </div>
-
-              <CompareWeather
-                setCompareWeather={setCompareWeather}
-                compareWeather={compareWeather}
-              />
-            </>
+                <CompareWeather
+                  setCompareWeather={setCompareWeather}
+                  compareWeather={compareWeather}
+                />
+              </>
+            )
           )}
         </>
       )}

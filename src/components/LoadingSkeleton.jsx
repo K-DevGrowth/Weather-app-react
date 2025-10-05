@@ -1,6 +1,6 @@
 const LoadingSkeleton = () => {
   return (
-    <>
+    <div className="grid lg:grid-cols-[0.7fr_2fr_1fr] gap-3 sm:p-3">
       <div className="animate-pulse">
         <section className="p-4 border dark:bg-Neutral-800 dark:border-Neutral-600 rounded-xl"></section>
       </div>
@@ -76,7 +76,7 @@ const LoadingSkeleton = () => {
             ))}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

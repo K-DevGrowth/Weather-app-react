@@ -4,7 +4,7 @@ import { useState } from "react";
 const WeatherStat = ({ label, value, unit }) => (
   <div className="card dark:bg-Neutral-700 dark:border-Neutral-600 w-full px-4 py-3 rounded-xl flex flex-col items-center justify-center min-w-0">
     <p className="dark:text-Neutral-200 text-gray-500 text-md mb-1">{label}</p>
-    <p className="text-2xl mt-2 font-medium">
+    <p className="text-xl mt-2 font-medium">
       {value} {unit}
     </p>
   </div>
