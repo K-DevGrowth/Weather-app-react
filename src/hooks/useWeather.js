@@ -19,7 +19,7 @@ const useWeather = (latitude, longitude, unit) => {
         setIsWeatherError(null);
 
         const res = await fetch(
-          `${API_WEATHER_URL}?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,precipitation,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&hourly=temperature_2m,precipitation,relative_humidity_2m,weathercode&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weathercode&temperature_unit=${unit.temp || "celsius"}&wind_speed_unit=${unit.wind || "kmh"}&precipitation_unit=${unit.precipitation || "mm"}&timezone=auto`
+          `${API_WEATHER_URL}?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,precipitation,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,uv_index,visibility,surface_pressure&hourly=temperature_2m,precipitation,relative_humidity_2m,weathercode&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,weathercode&temperature_unit=${unit.temp || "celsius"}&wind_speed_unit=${unit.wind || "kmh"}&precipitation_unit=${unit.precipitation || "mm"}&timezone=auto`
         );
         if (!res.ok) throw new Error("Weather API failed");
 

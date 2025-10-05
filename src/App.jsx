@@ -3,16 +3,16 @@ import Navbar from "./components/Navbar";
 import Search from "./components/Search";
 import CurrentWeatherCard from "./components/CurrentWeatherCard";
 import WeatherStats from "./components/WeatherStats";
-import DailyForecastList from "./components/DailyForecastList";
 import HourlyForecastList from "./components/HourlyForecastList";
+import DailyForecastList from "./components/DailyForecastList";
+import FavouriteWeather from "./components/FavouriteWeather";
+import CompareWeather from "./components/CompareWeather";
 import LoadingSkeleton from "./components/LoadingSkeleton";
 
 import useWeather from "./hooks/useWeather";
 import useCurrentLocation from "./hooks/useCurrentLocation";
 import useLocationSearch from "./hooks/useLocationSearch";
 import useDarkMode from "./hooks/useDarkMode";
-import FavouriteWeather from "./components/FavouriteWeather";
-import CompareWeather from "./components/CompareWeather";
 
 const defalutLocation = {
   name: "Ho Chi Minh City",
@@ -21,44 +21,14 @@ const defalutLocation = {
   longitude: 106.6297,
 };
 
-const defaultFavourite = [
-  {
-    name: "Ho Chi Minh City",
-    country: "Vietnam",
-    latitude: 10.8231,
-    longitude: 106.6297,
-  },
-];
-
-const defaultCompare = [
-  {
-    name: "Ho Chi Minh City",
-    countryName: "Vietnam",
-    weather: {
-      temperature_2m: 32,
-      apparent_temperature: 35,
-      relative_humidity_2m: 70,
-      wind_speed_10m: 10,
-      precipitation: 0,
-    },
-    unit: {
-      temperature_2m: "°C",
-      apparent_temperature: "°C",
-      relative_humidity_2m: "%",
-      wind_speed_10m: "km/h",
-      precipitation: "mm",
-    },
-  },
-];
-
 const App = () => {
-  const [favourite, setFavourite] = useState(() => {
-    const saved = localStorage.getItem("favourite");
-    return saved ? JSON.parse(saved) : defaultFavourite;
+  const [favourites, setFavourites] = useState(() => {
+    const saved = localStorage.getItem("favouriteWeather");
+    return saved ? JSON.parse(saved) : [];
   });
   const [compareWeather, setCompareWeather] = useState(() => {
     const saved = localStorage.getItem("compareWeather");
-    return saved ? JSON.parse(saved) : defaultCompare;
+    return saved ? JSON.parse(saved) : [];
   });
   const [unit, setUnit] = useState({
     temp: "celsius",
@@ -91,7 +61,7 @@ const App = () => {
   const { darkMode, handleToggleDarkMode } = useDarkMode();
 
   return (
-    <main className="relative bg-blue-100 dark:bg-Neutral-900 dark:text-Neutral-0 w-screen h-dvh overflow-x-hidden">
+    <main className="relative bg-gray-50 text-gray-800 dark:bg-Neutral-900 transition-colors duration-300 dark:text-Neutral-0 w-screen h-dvh overflow-x-hidden">
       <Navbar
         unit={unit}
         setUnit={setUnit}
@@ -119,15 +89,15 @@ const App = () => {
             <div>
               <FavouriteWeather
                 handleSelectLocation={handleSelectLocation}
-                favourite={favourite}
+                favourites={favourites}
                 country={country}
               />
             </div>
             <div>
               <CurrentWeatherCard
                 setCompareWeather={setCompareWeather}
-                favourite={favourite}
-                setFavourite={setFavourite}
+                favourites={favourites}
+                setFavourites={setFavourites}
                 country={country}
                 weather={weather.current}
                 unit={weather?.current_units}
@@ -136,18 +106,15 @@ const App = () => {
                 weather={weather.current}
                 unit={weather.current_units}
               />
-              <DailyForecastList data={weather.daily} />
+              <DailyForecastList weather={weather.daily} />
             </div>
             <div>
-              <HourlyForecastList data={weather.hourly} />
+              <HourlyForecastList weather={weather.hourly} />
             </div>
           </>
         )}
       </div>
-      <CompareWeather
-        compareWeather={compareWeather}
-        setCompareWeather={setCompareWeather}
-      />
+      <CompareWeather setCompareWeather={setCompareWeather} compareWeather={compareWeather} />
     </main>
   );
 };

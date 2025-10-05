@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 const CompareWeather = ({ compareWeather, setCompareWeather }) => {
   const getComparisonClass = (
     currentValue,
@@ -44,6 +46,16 @@ const CompareWeather = ({ compareWeather, setCompareWeather }) => {
       label: "Precipitation",
       higherIsBetter: false,
     },
+    {
+      key: "uv_index",
+      label: "UV index",
+      higherIsBetter: false,
+    },
+    {
+      key: "visibility",
+      label: "Visibility",
+      higherIsBetter: true,
+    },
   ];
 
   const allValuesMap = weatherMetrics.reduce((acc, metric) => {
@@ -52,24 +64,28 @@ const CompareWeather = ({ compareWeather, setCompareWeather }) => {
   }, {});
 
   const handleDeleteCompare = (idx) => {
-    setCompareWeather(
-      compareWeather.filter((item) => item.name !== compareWeather[idx].name)
-    );
+    setCompareWeather((prev) => {
+      const updated = prev.filter(
+        (item) => item.name !== compareWeather[idx].name
+      );
+      localStorage.removeItem("compareWeather", JSON.stringify(updated));
+      return updated;
+    });
   };
 
   return (
-    <section className="p-4 border-t dark:border-Neutral-600">
-      <h2 className="text-center pb-5">
+    <section className="p-4 border-t dark:border-Neutral-600 border-gray-800 shadow-sm">
+      <h2 className="text-center pb-5 dark:text-Neutral-0 text-gray-800">
         Compare Weather
       </h2>
       <div className="grid sm:grid-cols-2 grid-cols-1 w-full gap-4 items-center">
         {compareWeather.map((item, idx) => (
           <div
-            className="rounded-xl w-full max-w-xl mx-auto dark:bg-Neutral-800 dark:border-Neutral-600 border"
+            className="card rounded-xl w-full max-w-xl mx-auto dark:bg-Neutral-800 dark:border-Neutral-600"
             key={item.name}
           >
             <div className="relative py-2">
-              <h3 className="font-bold text-center text-lg w-full mx-auto max-w-50 sm:max-w-sm">
+              <h3 className="font-bold text-center text-lg w-full mx-auto max-w-50 sm:max-w-sm text-gray-700 dark:text-Neutral-0">
                 {item.name}, {item.countryName}
               </h3>
               <button
@@ -84,9 +100,9 @@ const CompareWeather = ({ compareWeather, setCompareWeather }) => {
               {weatherMetrics.map((metric) => (
                 <div
                   key={metric.key}
-                  className="dark:bg-Neutral-700 first:col-span-2 bg-white w-full border-blue-300 border dark:border-Neutral-600 px-4 py-3 rounded-xl flex flex-col items-center justify-center"
+                  className="dark:bg-Neutral-700 first:col-span-2 bg-white w-full shadow border-gray-400 border dark:border-Neutral-600 px-4 py-3 rounded-xl flex flex-col items-center justify-center"
                 >
-                  <p className="dark:text-Neutral-200 font-semibold text-gray-700 text-md mb-1">
+                  <p className="dark:text-Neutral-200 font-semibold text-gray-600 text-md mb-1">
                     {metric.label}
                   </p>
                   <p
@@ -106,6 +122,20 @@ const CompareWeather = ({ compareWeather, setCompareWeather }) => {
       </div>
     </section>
   );
+};
+
+CompareWeather.propTypes = {
+  compareWeather: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      countryName: PropTypes.string.isRequired,
+      weather: PropTypes.objectOf(
+        PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+      ).isRequired,
+      unit: PropTypes.objectOf(PropTypes.string).isRequired,
+    })
+  ).isRequired,
+  setCompareWeather: PropTypes.func.isRequired,
 };
 
 export default CompareWeather;

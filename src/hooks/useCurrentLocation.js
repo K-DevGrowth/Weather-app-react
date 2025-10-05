@@ -8,7 +8,6 @@ const useCurrentLocation = (defaultLocation) => {
     const [isLocating, setIsLocating] = useState(true);
 
     const fetchLocationName = async (latitude, longitude) => {
-
         try {
             const res = await fetch(
                 `${API_REVERSE_GEOCODING_URL}?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`

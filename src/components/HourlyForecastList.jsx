@@ -12,16 +12,16 @@ const WEEKDAYS = [
   "Saturday",
 ];
 
-const HourlyForecastList = ({ data }) => {
+const HourlyForecastList = ({ weather }) => {
   const [open, setOpen] = useState(false);
   const menuRef = useRef(null);
   const buttonRef = useRef(null);
 
   const days = Array.from(
     new Set(
-      data.time.map((date) => {
-        const d = new Date(date);
-        return WEEKDAYS[d.getDay()];
+      weather.time.map((date) => {
+        const day = new Date(date);
+        return WEEKDAYS[day.getDay()];
       })
     )
   );
@@ -52,13 +52,13 @@ const HourlyForecastList = ({ data }) => {
     };
   }, [open]);
 
-  const filteredIndexes = data.time
+  const filteredIndexes = weather.time
     .map((date, idx) => ({ idx, day: WEEKDAYS[new Date(date).getDay()] }))
     .filter((item) => item.day === selectedDay)
     .map((item) => item.idx);
 
   return (
-    <section className="dark:bg-Neutral-800 m-4 sm:m-0 bg-white border-blue-300 border dark:border-Neutral-600 p-4 rounded-xl w-full mx-auto">
+    <section className="card dark:bg-Neutral-800 dark:border-Neutral-600 p-4 rounded-xl w-full mx-auto">
       <div className="flex justify-between items-center">
         <h2>Hourly forecast</h2>
         <div className="relative">
@@ -79,13 +79,13 @@ const HourlyForecastList = ({ data }) => {
               role="menu"
               aria-label="days menu"
               ref={menuRef}
-              className="absolute right-0 mt-2 w-42 z-20 p-2 bg-white border-blue-200 border-1 rounded-xl dark:bg-Neutral-800 dark:border-Neutral-600"
+              className="absolute right-0 mt-2 w-42 z-20 p-2 bg-white border-gray-200 shadow-sm border rounded-xl dark:bg-Neutral-800 dark:border-Neutral-600"
             >
               {days.map((day) => (
                 <button
                   key={day}
                   onClick={() => handleSelectedDay(day)}
-                  className="dark:hover:bg-Neutral-700 hover:bg-blue-100 cursor-pointer rounded-md px-3 py-2 w-full text-left"
+                  className="dark:hover:bg-Neutral-700 cursor-pointer hover:bg-gray-200 rounded-md px-3 py-2 w-full text-left"
                 >
                   {day}
                 </button>
@@ -95,13 +95,13 @@ const HourlyForecastList = ({ data }) => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-3 mt-4 max-h-124 overflow-x-hidden overflow-y-auto scroll-smooth">
+      <div className="flex flex-col gap-3 mt-4 h-full max-h-133 overflow-x-hidden overflow-y-auto scroll-smooth">
         {filteredIndexes?.map((idx) => (
           <HourlyForecastItem
-            key={data.time[idx]}
-            date={data.time[idx]}
-            temp={data.temperature_2m[idx]}
-            weathercode={data.weathercode[idx]}
+            key={weather.time[idx]}
+            date={weather.time[idx]}
+            temp={weather.temperature_2m[idx]}
+            weathercode={weather.weathercode[idx]}
           />
         ))}
       </div>
@@ -115,7 +115,7 @@ const HourlyForecastItem = ({ date, temp, weathercode }) => {
     hour12: true,
   });
   return (
-    <div className="flex justify-between items-center px-3 py-1 rounded-md border bg-blue-50 border-blue-300 dark:border-Neutral-600 dark:bg-Neutral-700">
+    <div className="flex justify-between items-center px-3 py-1 rounded-md bg-gray-100 border-gray-200 border dark:border-Neutral-600 dark:bg-Neutral-700">
       <div className="flex items-center gap-x-4">
         <img
           className="w-10"
@@ -137,7 +137,7 @@ HourlyForecastItem.propTypes = {
 };
 
 HourlyForecastList.propTypes = {
-  data: PropTypes.shape({
+  weather: PropTypes.shape({
     time: PropTypes.arrayOf(PropTypes.string).isRequired,
     temperature_2m: PropTypes.array.isRequired,
     weathercode: PropTypes.array.isRequired,
