@@ -103,7 +103,8 @@ const Search = ({
                 handleSelectLocation(locationList[0]);
                 setSearchTerm("");
                 setLocationList([]);
-              } else {
+              }
+              if (searchTerm === "") {
                 alert("Please enter a location first!");
               }
             }}

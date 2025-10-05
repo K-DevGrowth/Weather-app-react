@@ -11,8 +11,8 @@ const DailyForecastItem = ({ date, tempMax, tempMin, weathercode }) => (
       loading="lazy"
     />
     <div className="flex justify-between items-center lg:text-sm md:gap-x-2 gap-x-6">
-      <p>{tempMax}&deg;</p>
-      <p>{tempMin}&deg;</p>
+      <p>{tempMax.toFixed(0)}&deg;</p>
+      <p>{tempMin.toFixed(0)}&deg;</p>
     </div>
   </div>
 );

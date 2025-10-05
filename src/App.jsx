@@ -13,6 +13,7 @@ import useWeather from "./hooks/useWeather";
 import useCurrentLocation from "./hooks/useCurrentLocation";
 import useLocationSearch from "./hooks/useLocationSearch";
 import useDarkMode from "./hooks/useDarkMode";
+import ErrorPage from "./components/ErrorPage";
 
 const defalutLocation = {
   name: "Ho Chi Minh City",
@@ -68,53 +69,60 @@ const App = () => {
         darkMode={darkMode}
         handleToggleDarkMode={handleToggleDarkMode}
       />
-      <Search
-        handleSelectLocation={handleSelectLocation}
-        locationList={locationList}
-        setLocationList={setLocationList}
-        isSearching={isSearching}
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        requestLocation={requestLocation}
-      />
-      <div className="grid lg:grid-cols-[0.7fr_2fr_1fr] gap-1 sm:p-3">
-        {isWeatherError && (
-          <div className="text-center text-2xl">{isWeatherError}</div>
-        )}
+      {isWeatherError ? (
+        <ErrorPage />
+      ) : (
+        <>
+          <Search
+            handleSelectLocation={handleSelectLocation}
+            locationList={locationList}
+            setLocationList={setLocationList}
+            isSearching={isSearching}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            requestLocation={requestLocation}
+          />
 
-        {isLocating || (isWeatherLoading && <LoadingSkeleton />)}
+          {isLocating || (isWeatherLoading && <LoadingSkeleton />)}
 
-        {weather && (
-          <>
-            <div>
-              <FavouriteWeather
-                handleSelectLocation={handleSelectLocation}
-                favourites={favourites}
-                country={country}
-              />
-            </div>
-            <div>
-              <CurrentWeatherCard
+          {weather && (
+            <>
+              <div className="grid lg:grid-cols-[0.7fr_2fr_1fr] gap-1 sm:p-3">
+                <div className="md:p-4 lg:p-0">
+                  <FavouriteWeather
+                    handleSelectLocation={handleSelectLocation}
+                    favourites={favourites}
+                    country={country}
+                  />
+                </div>
+                <div>
+                  <CurrentWeatherCard
+                    setCompareWeather={setCompareWeather}
+                    favourites={favourites}
+                    setFavourites={setFavourites}
+                    country={country}
+                    weather={weather.current}
+                    unit={weather?.current_units}
+                  />
+                  <WeatherStats
+                    weather={weather.current}
+                    unit={weather.current_units}
+                  />
+                  <DailyForecastList weather={weather.daily} />
+                </div>
+                <div className="p-4 lg:p-0">
+                  <HourlyForecastList weather={weather.hourly} />
+                </div>
+              </div>
+
+              <CompareWeather
                 setCompareWeather={setCompareWeather}
-                favourites={favourites}
-                setFavourites={setFavourites}
-                country={country}
-                weather={weather.current}
-                unit={weather?.current_units}
+                compareWeather={compareWeather}
               />
-              <WeatherStats
-                weather={weather.current}
-                unit={weather.current_units}
-              />
-              <DailyForecastList weather={weather.daily} />
-            </div>
-            <div>
-              <HourlyForecastList weather={weather.hourly} />
-            </div>
-          </>
-        )}
-      </div>
-      <CompareWeather setCompareWeather={setCompareWeather} compareWeather={compareWeather} />
+            </>
+          )}
+        </>
+      )}
     </main>
   );
 };

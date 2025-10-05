@@ -123,7 +123,7 @@ const CurrentWeatherCard = ({
       </button>
       <div className="absolute inset-0 p-8 flex sm:flex-row flex-col justify-between items-center gap-4">
         <div>
-          <h2 className="text-2xl">
+          <h2 className="text-2xl max-w-60 sm:max-w-full w-full">
             {country.name}, {country.country}
           </h2>
           <p>{formattedDate}</p>

@@ -61,7 +61,7 @@ const Dropdown = ({ unit, setUnit }) => {
                 onClick={() => handleSwitch(key, option.value)}
                 className={`flex justify-between cursor-pointer dark:hover:bg-Neutral-700 items-center p-2 rounded-md w-full text-left transition-colors duration-150 ${
                   unit[key] === option.value
-                    ? "dark:bg-Neutral-700 font-semibold bg-gray-200"
+                    ? "dark:bg-Neutral-700 font-semibold bg-gray-200/70"
                     : "hover:bg-gray-300"
                 }`}
               >
@@ -172,7 +172,7 @@ const Navbar = ({ unit, setUnit, darkMode, handleToggleDarkMode }) => {
             aria-controls="units-menu"
             aria-expanded={open}
             onClick={() => setOpen((prev) => !prev)}
-            className="inline-flex items-center gap-x-1.5 secondary-button shadow-sm dark:shadow-none dark:text-Neutral-0 dark:bg-Neutral-800 dark:hover:bg-Neutral-700"
+            className="inline-flex items-center gap-x-1.5 secondary-button"
           >
             <img
               className="dark:brightness-100 brightness-0"
